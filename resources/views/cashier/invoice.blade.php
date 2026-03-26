@@ -114,7 +114,7 @@
                 <p>Deliciously Crafting Quality Since 2024</p>
             </div>
             <div class="meta-info">
-                <h2>INVOICE</h2>
+                <h2 style="color:black">INVOICE</h2>
                 <p>#{{ $order->invoice_number }}</p>
             </div>
         </div>

@@ -100,6 +100,10 @@ class OrderController extends Controller
             return view('cashier.invoice', compact('order'))->with('print', true);
         }
 
+        if (request()->has('view')) {
+            return view('cashier.invoice', compact('order'));
+        }
+
         $pdf = PDF::loadView('cashier.invoice', compact('order'));
         
         if (request()->has('download')) {
@@ -111,10 +115,18 @@ class OrderController extends Controller
 
     public function history()
     {
-        $orders = Order::where('user_id', auth()->id())
-            ->with('items.menuItem')
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
+        $user = auth()->user();
+        $query = Order::with(['items.menuItem', 'user']);
+
+        if ($user->role === 'manager' || $user->role === 'owner') {
+            // Managers and owners see all orders placed today by all entities
+            $query->whereDate('created_at', today());
+        } else {
+            // Other roles (cashiers) see only their own history
+            $query->where('user_id', $user->id);
+        }
+
+        $orders = $query->orderBy('created_at', 'desc')->paginate(20);
         
         return view('cashier.history', compact('orders'));
     }

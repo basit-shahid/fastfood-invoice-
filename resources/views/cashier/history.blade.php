@@ -81,11 +81,14 @@
 @endpush
 
 @section('content')
+@php
+    $isManagerOrOwner = auth()->user()->role === 'manager' || auth()->user()->role === 'owner';
+@endphp
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="fw-900 mb-1" style="letter-spacing: -1px;">Order History</h2>
-            <p class="text-muted mb-0">Track and manage your historical checkout sessions.</p>
+            <h2 class="fw-900 mb-1" style="letter-spacing: -1px;">{{ $isManagerOrOwner ? "Today's Orders" : 'Order History' }}</h2>
+            <p class="text-muted mb-0">{{ $isManagerOrOwner ? "View all orders placed today by all staff members." : 'Track and manage your historical checkout sessions.' }}</p>
         </div>
         <a href="{{ route('orders.create') }}" class="btn btn-primary rounded-pill px-4 fw-bold">
             <i class="fas fa-plus me-2"></i> New Order
@@ -100,6 +103,9 @@
                         <thead>
                             <tr>
                                 <th>Invoice</th>
+                                @if($isManagerOrOwner)
+                                    <th>Cashier</th>
+                                @endif
                                 <th>Timestamp</th>
                                 <th>Inventory</th>
                                 <th>Amount</th>
@@ -113,7 +119,7 @@
                                 @php $orderDate = $order->created_at->format('F d, Y (l)'); @endphp
                                 @if($orderDate !== $currentDate)
                                     <tr class="date-row">
-                                        <td colspan="6" class="fw-800 py-3 px-4">
+                                        <td colspan="{{ $isManagerOrOwner ? 7 : 6 }}" class="fw-800 py-3 px-4">
                                             <i class="far fa-calendar-alt text-warning me-2"></i> {{ $orderDate }}
                                         </td>
                                     </tr>
@@ -126,6 +132,12 @@
                                             #{{ $order->invoice_number }}
                                         </a>
                                     </td>
+                                    @if($isManagerOrOwner)
+                                        <td>
+                                            <div class="fw-bold">{{ $order->user->name ?? 'System' }}</div>
+                                            <div class="small text-muted">{{ ucfirst($order->user->role ?? '') }}</div>
+                                        </td>
+                                    @endif
                                     <td>
                                         <div class="small fw-bold">{{ $order->created_at->format('h:i A') }}</div>
                                         <div class="small text-muted">{{ $order->created_at->format('d M y') }}</div>
@@ -144,7 +156,7 @@
                                     </td>
                                     <td class="text-end">
                                         <div class="d-flex justify-content-end gap-2">
-                                            <a href="{{ route('orders.invoice', $order) }}" target="_blank" class="action-icon-btn" title="View">
+                                            <a href="{{ route('orders.invoice', $order) }}?view=1" target="_blank" class="action-icon-btn" title="View">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             <a href="{{ route('orders.invoice', $order) }}?download=1" class="action-icon-btn" title="Download">

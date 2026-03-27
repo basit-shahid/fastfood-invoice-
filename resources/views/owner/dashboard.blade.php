@@ -118,7 +118,7 @@
                 <p class="lead opacity-75 mb-0">Manage your business operations and check real-time statistics.</p>
             </div>
             <div class="col-md-4 text-end d-none d-md-block">
-                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width: 150px; opacity: 0.9;">
+                <img src="{{ asset('images/empty-states/dashboard-icon.png') }}" style="width: 150px; opacity: 0.9;">
             </div>
         </div>
     </div>
@@ -198,4 +198,4 @@
     }
     setInterval(updateTime, 1000);
 </script>
-@endsection
+@endsection

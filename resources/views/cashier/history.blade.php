@@ -174,7 +174,7 @@
                 </div>
             @else
                 <div class="text-center py-5">
-                    <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-5521508-4610092.png" alt="Empty" style="max-height: 200px;" class="mb-4 opacity-75">
+                    <img src="{{ asset('images/empty-states/empty-cart.png') }}" alt="Empty" style="max-height: 200px;" class="mb-4 opacity-75">
                     <h4 class="fw-bold">No orders yet</h4>
                     <p class="text-muted">Once you start processing orders, they will appear here.</p>
                 </div>

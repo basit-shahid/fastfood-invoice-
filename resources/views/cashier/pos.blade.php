@@ -473,7 +473,7 @@
 
         <div class="cart-body" id="cart-content">
             <div class="empty-state">
-                <img src="https://cdn-icons-png.flaticon.com/512/11329/11329061.png" style="width: 120px; opacity: 0.3;" class="mb-4">
+                <img src="{{ asset('images/empty-states/empty-bag.png') }}" style="width: 120px; opacity: 0.3;" class="mb-4">
                 <h5>Bag is empty</h5>
                 <p class="small">Add items to start your checkout</p>
             </div>
@@ -633,7 +633,7 @@ function addItem(id, name, price) {
 function renderCart() {
     const wrap = $('#cart-content');
     if (cart.length === 0) {
-        wrap.html('<div class="empty-state"><img src="https://cdn-icons-png.flaticon.com/512/11329/11329061.png" style="width: 120px; opacity: 0.3;" class="mb-4"><h5>Bag is empty</h5><p class="small">Add items to start your checkout</p></div>');
+        wrap.html('<div class="empty-state"><img src="{{ asset('images/empty-states/empty-bag.png') }}" style="width: 120px; opacity: 0.3;" class="mb-4"><h5>Bag is empty</h5><p class="small">Add items to start your checkout</p></div>');
         $('#cart-count').text(0);
         renderTotals();
         return;

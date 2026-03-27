@@ -111,7 +111,7 @@
                     @empty
                     <tr>
                         <td colspan="5" class="text-center py-5">
-                            <img src="https://cdn-icons-png.flaticon.com/512/11329/11329061.png" style="width: 80px; opacity: 0.2;" class="mb-3">
+                            <img src="{{ asset('images/empty-states/empty-bag.png') }}" style="width: 80px; opacity: 0.2;" class="mb-3">
                             <p class="text-muted">No recent orders found.</p>
                         </td>
                     </tr>

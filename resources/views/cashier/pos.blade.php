@@ -548,7 +548,7 @@
 @endsection
 
 @push('scripts')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="{{ asset('assets/css/animate.min.css') }}"/>
 <script>
 let cart = [];
 let editingIndex = null;
@@ -717,5 +717,5 @@ function toggleCart() {
     $('#cart-sidebar').toggleClass('open');
 }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
 @endpush

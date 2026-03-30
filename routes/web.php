@@ -63,5 +63,6 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('owner')->middleware([\App\Http\Middleware\RoleMiddleware::class.':owner'])->group(function () {
         Route::get('/dashboard', [OwnerController::class, 'dashboard'])->name('owner.dashboard');
         Route::get('/reports', [OwnerController::class, 'reports'])->name('owner.reports');
+        Route::get('/export-report', [OwnerController::class, 'exportPdf'])->name('owner.export.pdf');
     });
 });

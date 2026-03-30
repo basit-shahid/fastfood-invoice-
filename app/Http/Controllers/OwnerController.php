@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\MenuItem;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OwnerController extends Controller
 {
@@ -16,7 +18,79 @@ class OwnerController extends Controller
         $todayOrders = Order::whereDate('created_at', today())->count();
         $staffCount = User::whereIn('role', ['manager', 'cashier'])->count();
         
-        return view('owner.dashboard', compact('totalMenuItems', 'todayOrders', 'staffCount'));
+        // Revenue Calculations
+        $dailyRevenue = Order::whereDate('created_at', today())->sum('total');
+        $monthlyRevenue = Order::whereMonth('created_at', now()->month)
+                               ->whereYear('created_at', now()->year)
+                               ->sum('total');
+        $allTimeRevenue = Order::sum('total');
+
+        // Monthly Sales Graph Data (for current year)
+        $ordersThisYear = Order::whereYear('created_at', now()->year)
+                               ->select('created_at', 'total')
+                               ->get();
+                               
+        $monthlySales = array_fill(1, 12, 0);
+        foreach ($ordersThisYear as $order) {
+            $month = (int)$order->created_at->format('m');
+            $monthlySales[$month] += $order->total;
+        }
+        
+        // Ensure values are numeric
+        $monthlySalesData = array_values($monthlySales);
+
+        // Peak Hours Analysis (Current Month)
+        $ordersThisMonth = Order::whereMonth('created_at', now()->month)
+                                 ->whereYear('created_at', now()->year)
+                                 ->select('created_at', 'total')
+                                 ->get();
+        $peakHoursData = array_fill(0, 24, 0);
+        foreach($ordersThisMonth as $order) {
+            $hour = (int)$order->created_at->format('G'); // 0-23
+            $peakHoursData[$hour]++;
+        }
+
+        // Staff Performance Leaderboard
+        $staffPerformance = User::whereIn('role', ['manager', 'cashier'])
+                                ->withCount(['orders' => function($query) {
+                                    $query->whereMonth('created_at', now()->month)
+                                          ->whereYear('created_at', now()->year);
+                                }])
+                                ->withSum(['orders as total_sales' => function($query) {
+                                    $query->whereMonth('created_at', now()->month)
+                                          ->whereYear('created_at', now()->year);
+                                }], 'total')
+                                ->orderByDesc('total_sales')
+                                ->get();
+
+        // Best vs Worst Sellers (All Time)
+        // Fetch all available menu items to properly account for 0-sale items
+        $allMenuItems = \App\Models\MenuItem::where('is_available', true)->get();
+        $itemSalesPlucked = \App\Models\OrderItem::select('menu_item_id', DB::raw('SUM(quantity) as total_quantity'))
+                                                 ->groupBy('menu_item_id')
+                                                 ->pluck('total_quantity', 'menu_item_id');
+
+        $menuItemStats = $allMenuItems->map(function($item) use ($itemSalesPlucked) {
+            return (object) [
+                'menuItem' => $item,
+                'total_quantity' => $itemSalesPlucked->get($item->id, 0)
+            ];
+        });
+
+        // Best Sellers (Top 5 by volume)
+        $bestSellers = $menuItemStats->sortByDesc('total_quantity')->values()->take(5);
+        
+        // Worst Sellers (Bottom 5, strictly excluding the Best Sellers to prevent overlap)
+        $bestSellerIds = $bestSellers->pluck('menuItem.id')->toArray();
+        $worstSellers = $menuItemStats->reject(function($item) use ($bestSellerIds) {
+            return in_array($item->menuItem->id, $bestSellerIds);
+        })->sortBy('total_quantity')->values()->take(5);
+
+        return view('owner.dashboard', compact(
+            'totalMenuItems', 'todayOrders', 'staffCount',
+            'dailyRevenue', 'monthlyRevenue', 'allTimeRevenue', 
+            'monthlySalesData', 'peakHoursData', 'staffPerformance', 'bestSellers', 'worstSellers'
+        ));
     }
     
     public function reports()
@@ -96,5 +170,45 @@ class OwnerController extends Controller
         
         $user->delete();
         return redirect()->route('staff.index')->with('success', 'Staff member deleted successfully.');
+    }
+
+    public function exportPdf()
+    {
+        // Gather data for the report (e.g. Current Month)
+        $monthName = now()->format('F Y');
+        
+        $totalOrders = Order::whereMonth('created_at', now()->month)
+                            ->whereYear('created_at', now()->year)
+                            ->count();
+                            
+        $totalRevenue = Order::whereMonth('created_at', now()->month)
+                             ->whereYear('created_at', now()->year)
+                             ->sum('total');
+
+        $topStaff = User::whereIn('role', ['manager', 'cashier'])
+                        ->withSum(['orders as total_sales' => function($query) {
+                            $query->whereMonth('created_at', now()->month)
+                                  ->whereYear('created_at', now()->year);
+                        }], 'total')
+                        ->orderByDesc('total_sales')
+                        ->first();
+
+        $itemSales = \App\Models\OrderItem::with('menuItem')
+                        ->select('menu_item_id', DB::raw('SUM(quantity) as total_quantity'))
+                        ->whereHas('order', function($q) {
+                            $q->whereMonth('created_at', now()->month)
+                              ->whereYear('created_at', now()->year);
+                        })
+                        ->groupBy('menu_item_id')
+                        ->orderByDesc('total_quantity')
+                        ->get();
+                        
+        $bestSeller = $itemSales->first();
+
+        $pdf = Pdf::loadView('owner.pdf_report', compact(
+            'monthName', 'totalOrders', 'totalRevenue', 'topStaff', 'bestSeller'
+        ));
+
+        return $pdf->download('Business-Report-' . now()->format('M-Y') . '.pdf');
     }
 }

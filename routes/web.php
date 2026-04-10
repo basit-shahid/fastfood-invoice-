@@ -40,7 +40,50 @@ Route::middleware(['auth'])->group(function () {
                 $totalMenuItems = \App\Models\MenuItem::count();
                 $todayOrders = \App\Models\Order::whereDate('created_at', today())->count();
                 $staffCount = \App\Models\User::whereIn('role', ['manager', 'cashier'])->count();
-                return view('manager.dashboard', compact('totalMenuItems', 'todayOrders', 'staffCount'));
+
+                $availableMenuItems = \App\Models\MenuItem::where('is_available', true)->count();
+                $unavailableMenuItems = $totalMenuItems - $availableMenuItems;
+
+                $todayRevenue = \App\Models\Order::whereDate('created_at', today())->sum('total');
+                $averageOrderValue = $todayOrders > 0 ? ($todayRevenue / $todayOrders) : 0;
+
+                $activeOrders = \App\Models\Order::whereDate('created_at', today())
+                    ->whereIn('status', ['pending', 'preparing', 'ready'])
+                    ->count();
+
+                $completedOrders = \App\Models\Order::whereDate('created_at', today())
+                    ->where('status', 'completed')
+                    ->count();
+
+                $recentOrders = \App\Models\Order::with('user')
+                    ->whereDate('created_at', today())
+                    ->latest()
+                    ->take(6)
+                    ->get();
+
+                $topItemsToday = \App\Models\OrderItem::with('menuItem')
+                    ->whereHas('order', function ($query) {
+                        $query->whereDate('created_at', today());
+                    })
+                    ->select('menu_item_id', \Illuminate\Support\Facades\DB::raw('SUM(quantity) as sold_count'))
+                    ->groupBy('menu_item_id')
+                    ->orderByDesc('sold_count')
+                    ->take(5)
+                    ->get();
+
+                return view('manager.dashboard', compact(
+                    'totalMenuItems',
+                    'todayOrders',
+                    'staffCount',
+                    'availableMenuItems',
+                    'unavailableMenuItems',
+                    'todayRevenue',
+                    'averageOrderValue',
+                    'activeOrders',
+                    'completedOrders',
+                    'recentOrders',
+                    'topItemsToday'
+                ));
             })->name('manager.dashboard');
         });
 

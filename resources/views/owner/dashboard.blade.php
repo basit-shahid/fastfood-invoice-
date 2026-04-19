@@ -279,9 +279,7 @@
                 <div style="height: 300px; width: 100%;">
                     <canvas id="monthlySalesChart"></canvas>
                 </div>
-                <a href="{{ route('owner.export.pdf') }}" class="btn btn-outline-dark rounded-pill px-4 fw-bold mt-3 border-2 shadow-sm btn-export">
-                        <i class="fas fa-file-pdf me-2" style="color:#e5ac00;"></i> Export Report
-                    </a>
+
             </div>
         </div>
         <!-- Peak Hours Graph -->
@@ -413,6 +411,17 @@
                 }]
             },
             options: {
+                onClick: (e, elements) => {
+                    if (elements.length > 0) {
+                        const idx = elements[0].index;
+                        const monthIndex = idx + 1; // 1-12
+                        const currentYear = new Date().getFullYear();
+                        window.location.href = `{{ route('owner.export.pdf') }}?month=${monthIndex}&year=${currentYear}`;
+                    }
+                },
+                onHover: (e, elements) => {
+                    e.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+                },
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {

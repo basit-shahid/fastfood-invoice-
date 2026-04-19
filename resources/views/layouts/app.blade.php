@@ -225,6 +225,11 @@
                                     <i class="fas fa-users"></i> Staff
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('stock.index') }}">
+                                    <i class="fas fa-boxes"></i> Stock
+                                </a>
+                            </li>
                         @elseif(auth()->user()->role == 'manager')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('manager.dashboard') }}">
@@ -249,6 +254,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('staff.index') }}">
                                     <i class="fas fa-users"></i> Staff
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('stock.index') }}">
+                                    <i class="fas fa-boxes"></i> Stock
                                 </a>
                             </li>
                         @else
@@ -307,7 +317,7 @@
             @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ session('error') }}
-                    <button type="button" class="btn-close"    <title>@yield('title', 'Dr. Shawarma POS')</title>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
         </div>
@@ -322,7 +332,7 @@
     </footer>
 
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    @stack('vendor-scripts')
     @stack('scripts')
 
     <script>

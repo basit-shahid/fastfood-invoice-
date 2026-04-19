@@ -11,15 +11,22 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menuItems = MenuItem::orderBy('category')->orderBy('name')->get();
-        $categories = MenuItem::distinct()->pluck('category');
+        $menuItems = MenuItem::query()
+            ->select(['id', 'name', 'description', 'price', 'category', 'image', 'is_available', 'preparation_time'])
+            ->orderBy('category')
+            ->orderBy('name')
+            ->get();
+
+        $categories = $menuItems->pluck('category')->unique()->values();
+        $menuCount = $menuItems->count();
         
-        return view('menu.index', compact('menuItems', 'categories'));
+        return view('menu.index', compact('menuItems', 'categories', 'menuCount'));
     }
 
     public function create()
     {
-        return view('menu.form');
+        $stocks = \App\Models\Stock::orderBy('item_name')->get();
+        return view('menu.form', compact('stocks'));
     }
 
     public function store(Request $request)
@@ -32,6 +39,7 @@ class MenuController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_available' => 'boolean',
             'preparation_time' => 'integer|min:1',
+            'stock_id' => 'nullable|exists:stocks,id',
         ]);
 
         if ($request->hasFile('image')) {
@@ -46,7 +54,8 @@ class MenuController extends Controller
 
     public function edit(MenuItem $menuItem)
     {
-        return view('menu.form', compact('menuItem'));
+        $stocks = \App\Models\Stock::orderBy('item_name')->get();
+        return view('menu.form', compact('menuItem', 'stocks'));
     }
 
     public function update(Request $request, MenuItem $menuItem)
@@ -59,6 +68,7 @@ class MenuController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_available' => 'boolean',
             'preparation_time' => 'integer|min:1',
+            'stock_id' => 'nullable|exists:stocks,id',
         ]);
 
         if ($request->hasFile('image')) {

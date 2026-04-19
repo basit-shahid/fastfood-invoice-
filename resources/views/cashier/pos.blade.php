@@ -4,6 +4,7 @@
 @section('title', 'Point of Sale')
 
 @push('styles')
+<link rel="stylesheet" href="{{ asset('assets/css/animate.min.css') }}"/>
 <style>
     :root {
         --pos-bg: #f8fafc;
@@ -547,8 +548,11 @@
 </div>
 @endsection
 
+@push('vendor-scripts')
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+@endpush
+
 @push('scripts')
-<link rel="stylesheet" href="{{ asset('assets/css/animate.min.css') }}"/>
 <script>
 let cart = [];
 let editingIndex = null;

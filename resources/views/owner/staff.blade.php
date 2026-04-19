@@ -123,6 +123,7 @@
                     <tr>
                         <th>Staff Member</th>
                         <th>Role</th>
+                        <th>Phone</th>
                         <th>Login Access</th>
                         <th class="text-end">Actions</th>
                     </tr>
@@ -145,6 +146,9 @@
                             <span class="badge-modern bg-{{ $user->role === 'owner' ? 'dark text-white' : ($user->role === 'manager' ? 'primary text-white' : 'light text-dark') }}">
                                 {{ strtoupper($user->role) }}
                             </span>
+                        </td>
+                        <td>
+                            <div class="small fw-600">{{ $user->phone ?? 'NO PHONE' }}</div>
                         </td>
                         <td>
                             <span class="badge-modern {{ $user->is_active ? 'bg-success text-white' : 'bg-danger text-white' }}">

@@ -117,6 +117,7 @@ class OwnerController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:admin,owner,manager,cashier',
+            'phone' => 'nullable|string|max:20',
             'is_active' => 'nullable|boolean'
         ]);
         
@@ -125,6 +126,7 @@ class OwnerController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'phone' => $request->phone,
             'is_active' => $request->has('is_active'),
         ]);
         
@@ -143,6 +145,7 @@ class OwnerController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:8|confirmed',
             'role' => 'required|in:admin,owner,manager,cashier',
+            'phone' => 'nullable|string|max:20',
             'is_active' => 'nullable|boolean'
         ]);
         
@@ -150,6 +153,7 @@ class OwnerController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
+            'phone' => $request->phone,
             'is_active' => $request->has('is_active'),
         ];
         

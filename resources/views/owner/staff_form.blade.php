@@ -116,6 +116,12 @@
                         <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email ?? '') }}" placeholder="example@domain.com" required>
                     </div>
 
+                    <div class="mb-4">
+                        <label for="phone" class="form-label">PHONE NUMBER <span class="required-star">*</span></label>
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $user->phone ?? '') }}" placeholder="+923001234567" required>
+                        <small class="text-muted">Format: +923XXXXXXXXX. This number will receive OTP codes.</small>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <label for="password" class="form-label">PASSWORD @if(!isset($user))<span class="required-star">*</span>@endif</label>

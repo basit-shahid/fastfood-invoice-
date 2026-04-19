@@ -90,6 +90,9 @@ Route::middleware(['auth'])->group(function () {
         // Menu Management
         Route::resource('menu', MenuController::class)->parameters(['menu' => 'menuItem'])->except(['index', 'show']);
         Route::post('/menu/{menuItem}/toggle-availability', [MenuController::class, 'toggleAvailability'])->name('menu.toggle-availability');
+
+        // Stock Management
+        Route::resource('stock', \App\Http\Controllers\StockController::class);
     });
     
     // Staff Management (Owner & Manager)

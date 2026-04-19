@@ -244,12 +244,7 @@
                     </button>
                 </form>
                 
-                <div class="demo-credentials">
-                    <h6 class="fw-bold mb-2 d-flex align-items-center"><i class="fas fa-id-badge text-warning me-2 fs-5"></i> Demo Credentials:</h6>
-                    <small>👑 <strong>Owner:</strong> owner@drshawarma.com / password</small>
-                    <small>📊 <strong>Manager:</strong> manager@drshawarma.com / password</small>
-                    <small>🍔 <strong>Cashier:</strong> cashier@drshawarma.com / password</small>
-                </div>
+                
             </div>
         </div>
     </div>

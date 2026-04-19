@@ -163,6 +163,19 @@
                         </div>
                     </div>
 
+                    <div class="mb-4">
+                        <label for="stock_id" class="form-label">LINKED STOCK ITEM (OPTIONAL)</label>
+                        <select name="stock_id" id="stock_id" class="form-select">
+                            <option value="">-- No Stock Deduction --</option>
+                            @foreach($stocks as $stock)
+                                <option value="{{ $stock->id }}" {{ old('stock_id', $menuItem->stock_id ?? '') == $stock->id ? 'selected' : '' }}>
+                                    {{ $stock->item_name }} (Current: {{ $stock->quantity }} {{ $stock->unit }})
+                                </option>
+                            @endforeach
+                        </select>
+                        <p class="text-muted small mt-2">Connecting this item will automatically deduct stock when an order is placed.</p>
+                    </div>
+
                     <div class="mb-4 p-3 rounded-4 border-1 border" style="background: var(--bg-color); border-color: var(--border-color) !important;">
                         <div class="form-check form-switch mb-0">
                             <input class="form-check-input" type="checkbox" id="is_available" name="is_available" value="1" 

@@ -61,6 +61,11 @@ class OrderController extends Controller
                     'subtotal' => $itemSubtotal,
                     'special_instructions' => $item['instructions'] ?? null,
                 ]);
+
+                // Auto-deduct stock if linked
+                if ($menuItem->stock_id) {
+                    $menuItem->stock()->decrement('quantity', $item['quantity']);
+                }
             }
 
             $total = $subtotal + ($request->tax ?? 0) - ($request->discount ?? 0);

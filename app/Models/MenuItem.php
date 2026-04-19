@@ -18,6 +18,7 @@ class MenuItem extends Model
         'image',
         'is_available',
         'preparation_time',
+        'stock_id',
     ];
 
     protected $casts = [
@@ -28,6 +29,11 @@ class MenuItem extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function stock()
+    {
+        return $this->belongsTo(Stock::class, 'stock_id');
     }
 
     public function getFormattedPriceAttribute()

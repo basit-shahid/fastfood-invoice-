@@ -174,30 +174,33 @@ class OwnerController extends Controller
 
     public function exportPdf()
     {
-        // Gather data for the report (e.g. Current Month)
-        $monthName = now()->format('F Y');
+        $month = request('month', now()->month);
+        $year = request('year', now()->year);
+
+        $date = \Carbon\Carbon::create($year, $month, 1);
+        $monthName = $date->format('F Y');
         
-        $totalOrders = Order::whereMonth('created_at', now()->month)
-                            ->whereYear('created_at', now()->year)
+        $totalOrders = Order::whereMonth('created_at', $month)
+                            ->whereYear('created_at', $year)
                             ->count();
                             
-        $totalRevenue = Order::whereMonth('created_at', now()->month)
-                             ->whereYear('created_at', now()->year)
+        $totalRevenue = Order::whereMonth('created_at', $month)
+                             ->whereYear('created_at', $year)
                              ->sum('total');
 
         $topStaff = User::whereIn('role', ['manager', 'cashier'])
-                        ->withSum(['orders as total_sales' => function($query) {
-                            $query->whereMonth('created_at', now()->month)
-                                  ->whereYear('created_at', now()->year);
+                        ->withSum(['orders as total_sales' => function($query) use ($month, $year) {
+                            $query->whereMonth('created_at', $month)
+                                  ->whereYear('created_at', $year);
                         }], 'total')
                         ->orderByDesc('total_sales')
                         ->first();
 
         $itemSales = \App\Models\OrderItem::with('menuItem')
                         ->select('menu_item_id', DB::raw('SUM(quantity) as total_quantity'))
-                        ->whereHas('order', function($q) {
-                            $q->whereMonth('created_at', now()->month)
-                              ->whereYear('created_at', now()->year);
+                        ->whereHas('order', function($q) use ($month, $year) {
+                            $q->whereMonth('created_at', $month)
+                              ->whereYear('created_at', $year);
                         })
                         ->groupBy('menu_item_id')
                         ->orderByDesc('total_quantity')
@@ -209,6 +212,6 @@ class OwnerController extends Controller
             'monthName', 'totalOrders', 'totalRevenue', 'topStaff', 'bestSeller'
         ));
 
-        return $pdf->download('Business-Report-' . now()->format('M-Y') . '.pdf');
+        return $pdf->download('Business-Report-' . $date->format('M-Y') . '.pdf');
     }
 }

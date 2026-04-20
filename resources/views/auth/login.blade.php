@@ -156,35 +156,6 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 18px rgba(255,193,7,0.3);
         }
-
-        .otp-input-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .form-control-otp {
-            font-size: 1.5rem;
-            text-align: center;
-            font-weight: 800;
-            letter-spacing: 0.2rem;
-        }
-
-        .cancel-link {
-            display: block;
-            margin-top: 15px;
-            text-align: center;
-            color: #6c757d;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-
-        .cancel-link:hover {
-            color: var(--black);
-        }
         
         .demo-credentials {
             margin-top: 20px;
@@ -241,11 +212,7 @@
                 
                 <!-- Visible only on Desktop -->
                 <h3 class="fw-bolder mb-3 d-none d-lg-block" style="letter-spacing: -1px; font-size: 2rem; text-align: center;"
-                >{{ isset($showOtp) ? 'Security Verification' : 'Welcome back!' }}</h3>
-
-                @if(isset($showOtp))
-                    <p class="text-muted fw-bold text-center mb-4">A 6-digit code has been sent to your phone. Enter it to proceed.</p>
-                @endif
+                >Welcome back!</h3>
                 
                 @if($errors->any())
                     <div class="alert alert-danger" style="border-radius: 10px; border: none; background: #fff5f5; color: #e53e3e; font-weight: 600; padding: 10px;">
@@ -253,52 +220,29 @@
                     </div>
                 @endif
                 
-                @if(isset($showOtp))
-                    <form method="POST" action="{{ url('/login/otp') }}">
-                        @csrf
-                        <div class="form-group">
-                            <label for="otp"><i class="fas fa-shield-alt text-muted me-2"></i> 6-Digit OTP Code</label>
-                            <input type="text" name="otp" class="form-control form-control-otp" 
-                                   id="otp" maxlength="6" placeholder="000000" required autofocus autocomplete="one-time-code">
-                        </div>
-                        
-                        <button type="submit" class="btn btn-login">
-                            Verify & Login <i class="fas fa-check-circle ms-2"></i>
-                        </button>
-
-                        <a href="{{ route('logout') }}" class="cancel-link" 
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="fas fa-arrow-left me-1"></i> Not your account? Go back
-                        </a>
-                    </form>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                @else
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-                        <div class="form-group">
-                            <label for="email"><i class="fas fa-envelope text-muted me-2"></i> Email Address</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                   id="email" name="email" value="{{ old('email') }}" required autofocus placeholder="name@fastfood.com">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="password"><i class="fas fa-lock text-muted me-2"></i> Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" 
-                                   id="password" name="password" required placeholder="Enter your password">
-                        </div>
-                        
-                        <div class="form-group form-check d-flex align-items-center mb-3">
-                            <input type="checkbox" class="form-check-input me-3" id="remember" name="remember" style="width: 1.2rem; height: 1.2rem; margin-top: 0;">
-                            <label class="form-check-label text-muted fw-bold" for="remember" style="margin-bottom: 0; cursor: pointer;">Maintain session</label>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-login">
-                            Authenticate <i class="fas fa-arrow-right ms-2"></i>
-                        </button>
-                    </form>
-                @endif
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope text-muted me-2"></i> Email Address</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                               id="email" name="email" value="{{ old('email') }}" required autofocus placeholder="name@fastfood.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock text-muted me-2"></i> Password</label>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                               id="password" name="password" required placeholder="Enter your password">
+                    </div>
+                    
+                    <div class="form-group form-check d-flex align-items-center mb-3">
+                        <input type="checkbox" class="form-check-input me-3" id="remember" name="remember" style="width: 1.2rem; height: 1.2rem; margin-top: 0;">
+                        <label class="form-check-label text-muted fw-bold" for="remember" style="margin-bottom: 0; cursor: pointer;">Maintain session</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-login">
+                        Authenticate <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </form>
                 
                 
             </div>

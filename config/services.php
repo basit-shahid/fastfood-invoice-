@@ -35,8 +35,4 @@ return [
         ],
     ],
 
-    'sms' => [
-        'driver' => env('SMS_DRIVER', 'log'),
-    ],
-
 ];

@@ -5,7 +5,6 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OwnerController;
-use App\Http\Controllers\OtpController;
 
 // Public routes
 Route::get('/', function () {
@@ -16,10 +15,6 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// OTP verification
-Route::get('/login/otp', [OtpController::class, 'showOtpForm'])->name('login.otp');
-Route::post('/login/otp', [OtpController::class, 'verifyOtp']);
 
 // Protected routes
 Route::middleware(['auth'])->group(function () {

@@ -92,7 +92,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/menu/{menuItem}/toggle-availability', [MenuController::class, 'toggleAvailability'])->name('menu.toggle-availability');
 
         // Stock Management
-        Route::resource('stock', \App\Http\Controllers\StockController::class);
+        // Route::resource('stock', \App\Http\Controllers\StockController::class);
     });
     
     // Staff Management (Owner & Manager)

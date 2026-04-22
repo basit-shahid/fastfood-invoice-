@@ -140,7 +140,7 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <label for="price" class="form-label">PRICE (₱) <span class="required-star">*</span></label>
+                            <label for="price" class="form-label">PRICE (PKR) <span class="required-star">*</span></label>
                             <input type="number" step="0.01" min="0" class="form-control" id="price" name="price" value="{{ old('price', $menuItem->price ?? '') }}" placeholder="0.00" required>
                         </div>
                         <div class="col-md-6 mb-4">
@@ -163,6 +163,7 @@
                         </div>
                     </div>
 
+                    {{-- 
                     <div class="mb-4">
                         <label for="stock_id" class="form-label">LINKED STOCK ITEM (OPTIONAL)</label>
                         <select name="stock_id" id="stock_id" class="form-select">
@@ -175,6 +176,7 @@
                         </select>
                         <p class="text-muted small mt-2">Connecting this item will automatically deduct stock when an order is placed.</p>
                     </div>
+                    --}}
 
                     <div class="mb-4 p-3 rounded-4 border-1 border" style="background: var(--bg-color); border-color: var(--border-color) !important;">
                         <div class="form-check form-switch mb-0">

@@ -90,8 +90,7 @@
 
     <div>
         <div class="summary-box" style="margin-right: 2%;">
-            <div class="summary-title">Total Revenue ({{ $monthName }})</div>
-            <div class="summary-value">Rs. {{ number_format($totalRevenue, 2) }}</div>
+            <div class="summary-value">PKR {{ number_format($totalRevenue, 2) }}</div>
         </div>
         <div class="summary-box">
             <div class="summary-title">Orders Processed ({{ $monthName }})</div>
@@ -109,7 +108,7 @@
             <td><strong>Top Performing Staff</strong></td>
             <td>
                 @if($topStaff)
-                    {{ $topStaff->name }} ({{ number_format($topStaff->total_sales, 2) }} Rs. across {{ $topStaff->orders_count }} orders)
+                    {{ $topStaff->name }} (PKR {{ number_format($topStaff->total_sales, 2) }} across {{ $topStaff->orders_count }} orders)
                 @else
                     N/A
                 @endif

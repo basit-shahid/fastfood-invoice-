@@ -147,7 +147,7 @@
                                             {{ $order->items->sum('quantity') }} items
                                         </span>
                                     </td>
-                                    <td class="fw-900">₱{{ number_format($order->total, 2) }}</td>
+                                    <td class="fw-900">PKR {{ number_format($order->total, 2) }}</td>
                                     <td>
                                         <span class="status-badge {{ $order->status == 'pending' ? 'status-pending' : 'status-completed' }}">
                                             <i class="fas fa-circle fs-xs me-1 small"></i>

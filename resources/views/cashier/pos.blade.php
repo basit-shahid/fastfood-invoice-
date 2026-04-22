@@ -456,7 +456,7 @@
                     </div>
                     <div class="item-info">
                         <h6>{{ $item->name }}</h6>
-                        <div class="item-price">₱{{ number_format($item->price, 0) }}</div>
+                        <div class="item-price">PKR {{ number_format($item->price, 0) }}</div>
                     </div>
                 </div>
             @endforeach
@@ -483,7 +483,7 @@
         <div class="cart-footer">
             <div class="summary-row">
                 <span>Subtotal</span>
-                <span id="subtotal">₱0.00</span>
+                <span id="subtotal">PKR 0.00</span>
             </div>
             <div class="summary-row align-items-center">
                 <span>Item Discount</span>
@@ -492,7 +492,7 @@
             
             <div class="total-display">
                 <span class="fw-bold text-muted">Payable Total</span>
-                <span class="total-val text-warning" id="total">₱0.00</span>
+                <span class="total-val text-warning" id="total">PKR 0.00</span>
             </div>
 
             <div class="row g-2 mb-4">
@@ -513,7 +513,7 @@
             <div id="change-wrap" class="d-none mb-4 animate__animated animate__fadeIn">
                 <div class="p-3 bg-warning bg-opacity-10 rounded-4 d-flex justify-content-between">
                     <span class="fw-bold">Change to Return</span>
-                    <span class="fw-900 fs-5" id="change-val">₱0.00</span>
+                    <span class="fw-900 fs-5" id="change-val">PKR 0.00</span>
                 </div>
             </div>
 
@@ -598,7 +598,7 @@ $(document).ready(function() {
     $('#process-order').click(function() {
         if (cart.length === 0) return Swal.fire('Error', 'Cart is empty', 'error');
         
-        const total = parseFloat($('#total').text().replace('₱', '').replace(',', ''));
+        const total = parseFloat($('#total').text().replace('PKR ', '').replace(',', ''));
         const received = parseFloat($('#cash-received').val()) || 0;
         const method = $('#payment-method').val();
 
@@ -651,7 +651,7 @@ function renderCart() {
             <div class="cart-item-row">
                 <div class="cart-item-header">
                     <span class="fw-bold">${item.name}</span>
-                    <span class="fw-900 text-dark">₱${(item.price * item.quantity).toFixed(0)}</span>
+                    <span class="fw-900 text-dark">PKR ${(item.price * item.quantity).toFixed(0)}</span>
                 </div>
                 <div class="cart-item-controls">
                     <div class="qty-control">
@@ -705,13 +705,13 @@ function renderTotals() {
     const disc = parseFloat($('#discount').val()) || 0;
     const total = Math.max(0, sub - disc);
     
-    $('#subtotal').text('₱' + sub.toLocaleString());
-    $('#total').text('₱' + total.toLocaleString());
+    $('#subtotal').text('PKR ' + sub.toLocaleString());
+    $('#total').text('PKR ' + total.toLocaleString());
 
     const recv = parseFloat($('#cash-received').val()) || 0;
     if (recv >= total && total > 0) {
         $('#change-wrap').removeClass('d-none');
-        $('#change-val').text('₱' + (recv - total).toLocaleString());
+        $('#change-val').text('PKR ' + (recv - total).toLocaleString());
     } else {
         $('#change-wrap').addClass('d-none');
     }

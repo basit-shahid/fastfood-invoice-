@@ -100,7 +100,7 @@
                             <div class="small text-muted">{{ $order->created_at->format('H:i A') }}</div>
                         </td>
                         <td>
-                            <span class="amount-text">₱{{ number_format($order->total, 2) }}</span>
+                            <span class="amount-text">PKR {{ number_format($order->total, 2) }}</span>
                         </td>
                         <td>
                             <span class="badge-modern bg-success text-white text-uppercase">

@@ -175,8 +175,8 @@
                         <i class="fas fa-wallet"></i>
                     </div>
                     <div class="stat-label">Today's Revenue</div>
-                    <div class="stat-value" style="font-size: 2rem;">Rs. <span data-counter="{{ $todayRevenue ?? 0 }}">{{ $todayRevenue ?? 0 }}</span></div>
-                    <div class="text-muted small mt-2">Avg order: Rs. {{ number_format($averageOrderValue ?? 0, 0) }}</div>
+                    <div class="stat-value" style="font-size: 2rem;">PKR <span data-counter="{{ $todayRevenue ?? 0 }}">{{ $todayRevenue ?? 0 }}</span></div>
+                    <div class="text-muted small mt-2">Avg order: PKR {{ number_format($averageOrderValue ?? 0, 0) }}</div>
                 </div>
             </div>
         </div>

@@ -252,7 +252,7 @@
                 </div>
                 
                 <div class="d-flex justify-content-between align-items-end mt-2">
-                    <div class="price-tag">Rs. {{ number_format($item->price, 0) }}</div>
+                    <div class="price-tag">PKR {{ number_format($item->price, 0) }}</div>
                 </div>
                 
                 @if(auth()->user()->role != 'cashier')

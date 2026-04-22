@@ -157,8 +157,8 @@
                         @endif
                     </td>
                     <td style="text-align: center;">{{ $item->quantity }}</td>
-                    <td style="text-align: right;">₱{{ number_format($item->price, 2) }}</td>
-                    <td style="text-align: right; font-weight: 700;">₱{{ number_format($item->subtotal, 2) }}</td>
+                    <td style="text-align: right;">PKR {{ number_format($item->price, 2) }}</td>
+                    <td style="text-align: right; font-weight: 700;">PKR {{ number_format($item->subtotal, 2) }}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -168,32 +168,32 @@
             <table class="totals-table">
                 <tr>
                     <td>Subtotal</td>
-                    <td>₱{{ number_format($order->subtotal, 2) }}</td>
+                    <td>PKR {{ number_format($order->subtotal, 2) }}</td>
                 </tr>
                 @if($order->tax > 0)
                 <tr>
                     <td>Tax</td>
-                    <td>₱{{ number_format($order->tax, 2) }}</td>
+                    <td>PKR {{ number_format($order->tax, 2) }}</td>
                 </tr>
                 @endif
                 @if($order->discount > 0)
                 <tr>
                     <td>Discount</td>
-                    <td style="color: #dc3545;">-₱{{ number_format($order->discount, 2) }}</td>
+                    <td style="color: #dc3545;">-PKR {{ number_format($order->discount, 2) }}</td>
                 </tr>
                 @endif
                 <tr class="grand-total">
                     <td>TOTAL</td>
-                    <td>₱{{ number_format($order->total, 2) }}</td>
+                    <td>PKR {{ number_format($order->total, 2) }}</td>
                 </tr>
                 @if($order->payment_method === 'cash')
                 <tr>
                     <td>Cash Received</td>
-                    <td>₱{{ number_format($order->cash_received, 2) }}</td>
+                    <td>PKR {{ number_format($order->cash_received, 2) }}</td>
                 </tr>
                 <tr>
                     <td>Change</td>
-                    <td>₱{{ number_format($order->change_amount, 2) }}</td>
+                    <td>PKR {{ number_format($order->change_amount, 2) }}</td>
                 </tr>
                 @endif
             </table>

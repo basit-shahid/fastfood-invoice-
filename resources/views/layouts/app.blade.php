@@ -225,11 +225,7 @@
                                     <i class="fas fa-users"></i> Staff
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('stock.index') }}">
-                                    <i class="fas fa-boxes"></i> Stock
-                                </a>
-                            </li>
+
                         @elseif(auth()->user()->role == 'manager')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('manager.dashboard') }}">
@@ -256,11 +252,13 @@
                                     <i class="fas fa-users"></i> Staff
                                 </a>
                             </li>
+                            {{-- 
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('stock.index') }}">
                                     <i class="fas fa-boxes"></i> Stock
                                 </a>
                             </li>
+                            --}}
                         @else
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('cashier.dashboard') }}">

@@ -238,7 +238,7 @@
                         <i class="fas fa-calendar-day"></i>
                     </div>
                     <div class="stat-label">Daily Revenue</div>
-                    <div class="stat-value">Rs. {{ number_format($dailyRevenue, 2) }}</div>
+                    <div class="stat-value">PKR {{ number_format($dailyRevenue, 2) }}</div>
                 </div>
             </div>
         </div>
@@ -251,7 +251,7 @@
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                     <div class="stat-label">Monthly Revenue</div>
-                    <div class="stat-value">Rs. {{ number_format($monthlyRevenue, 2) }}</div>
+                    <div class="stat-value">PKR {{ number_format($monthlyRevenue, 2) }}</div>
                 </div>
             </div>
         </div>
@@ -264,7 +264,7 @@
                         <i class="fas fa-wallet"></i>
                     </div>
                     <div class="stat-label">All-Time Revenue</div>
-                    <div class="stat-value">Rs. {{ number_format($allTimeRevenue, 2) }}</div>
+                    <div class="stat-value">PKR {{ number_format($allTimeRevenue, 2) }}</div>
                 </div>
             </div>
         </div>
@@ -309,7 +309,7 @@
                                     <small class="text-muted text-capitalize">{{ $staff->role }}</small>
                                 </td>
                                 <td class="text-end px-0">
-                                    <div class="fw-bold" style="color:#e5ac00;">Rs. {{ number_format($staff->total_sales, 0) }}</div>
+                                    <div class="fw-bold" style="color:#e5ac00;">PKR {{ number_format($staff->total_sales, 0) }}</div>
                                     <small class="text-muted">{{ $staff->orders_count }} orders</small>
                                 </td>
                             </tr>
@@ -400,7 +400,7 @@
             data: {
                 labels: months,
                 datasets: [{
-                    label: 'Revenue (Rs.)',
+                    label: 'Revenue (PKR)',
                     data: monthlySalesData,
                     backgroundColor: barGradient,
                     borderColor: 'rgba(255, 179, 0, 1)',
@@ -433,7 +433,7 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            callback: (v) => 'Rs. ' + v.toLocaleString(),
+                            callback: (v) => 'PKR ' + v.toLocaleString(),
                             font: { family: 'Segoe UI', size: 11 }
                         },
                         grid: { color: 'rgba(0,0,0,0.05)' }
@@ -453,7 +453,7 @@
                         cornerRadius: 10,
                         displayColors: false,
                         callbacks: {
-                            label: (ctx) => 'Revenue: Rs. ' + ctx.parsed.y.toLocaleString()
+                            label: (ctx) => 'Revenue: PKR ' + ctx.parsed.y.toLocaleString()
                         }
                     }
                 }

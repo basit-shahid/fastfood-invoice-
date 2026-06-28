@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fastfood-invoice-app
+    env_file:
+      - .env
+    ports:
+      - "8000:80"
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=laravel
+      - DB_USERNAME=laravel_user
+      - DB_PASSWORD=laravel_pass
+      # The app key should ideally be regenerated or passed as an ENV var, for this setup we will use a dummy or require user to run artisan key:generate
+    depends_on:
+      - db
+    volumes:
+      # If you want to sync local changes during dev, uncomment the next line
+      # - .:/var/www/html
+      # ensure storage stays persisted even if rebuilding image occasionally
+      - storage_data:/var/www/html/storage
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=laravel
+      - MYSQL_USER=laravel_user
+      - MYSQL_PASSWORD=laravel_pass
+      - MYSQL_ROOT_PASSWORD=root_pass
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
+  storage_data:

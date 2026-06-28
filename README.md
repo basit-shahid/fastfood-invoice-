@@ -7,6 +7,45 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Local Development (No Docker)
+
+Use your local PHP, Composer, Node.js, and database setup.
+
+### Prerequisites
+- PHP 8.2+
+- Composer
+- Node.js + npm
+- SQLite or MySQL
+
+### Getting Started
+1. **Install Dependencies**:
+   ```bash
+   composer install
+   npm install
+   ```
+
+2. **Set Up Environment**:
+   ```bash
+   copy .env.example .env
+   php artisan key:generate
+   ```
+
+3. **Run Migrations**:
+   ```bash
+   php artisan migrate
+   ```
+
+4. **Start Development Servers**:
+   ```bash
+   php artisan serve
+   npm run dev
+   ```
+
+5. **Access the App**:
+   Open [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+---
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

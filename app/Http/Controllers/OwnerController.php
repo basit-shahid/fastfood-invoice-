@@ -115,6 +115,7 @@ class OwnerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'secondary_email' => 'nullable|string|email|max:255',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:admin,owner,manager,cashier',
             'is_active' => 'nullable|boolean'
@@ -123,6 +124,7 @@ class OwnerController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'secondary_email' => $request->secondary_email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
             'is_active' => $request->has('is_active'),
@@ -141,6 +143,7 @@ class OwnerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'secondary_email' => 'nullable|string|email|max:255',
             'password' => 'nullable|string|min:8|confirmed',
             'role' => 'required|in:admin,owner,manager,cashier',
             'is_active' => 'nullable|boolean'
@@ -149,6 +152,7 @@ class OwnerController extends Controller
         $data = [
             'name' => $request->name,
             'email' => $request->email,
+            'secondary_email' => $request->secondary_email,
             'role' => $request->role,
             'is_active' => $request->has('is_active'),
         ];

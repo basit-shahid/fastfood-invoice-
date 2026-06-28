@@ -116,6 +116,12 @@
                         <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email ?? '') }}" placeholder="example@domain.com" required>
                     </div>
 
+                    <div class="mb-4">
+                        <label for="secondary_email" class="form-label">SECONDARY EMAIL (FOR OTP)</label>
+                        <input type="email" class="form-control" id="secondary_email" name="secondary_email" value="{{ old('secondary_email', $user->secondary_email ?? '') }}" placeholder="otp-receiver@domain.com">
+                        <div class="mt-2 text-muted small">This email will be used to receive the login OTP.</div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <label for="password" class="form-label">PASSWORD @if(!isset($user))<span class="required-star">*</span>@endif</label>

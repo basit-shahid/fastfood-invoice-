@@ -30,6 +30,7 @@
             /* Light mode surface tokens */
             --body-bg: #f8f9fa;
             --body-color: #0f172a;
+            --text-color: #0f172a;
             --card-bg: #ffffff;
             --card-border: rgba(0,0,0,0.06);
             --muted-color: #64748b;
@@ -42,6 +43,7 @@
         html.dark {
             --body-bg: #0f1117;
             --body-color: #e2e8f0;
+            --text-color: #e2e8f0;
             --card-bg: #1a1d27;
             --card-border: rgba(255,255,255,0.06);
             --muted-color: #94a3b8;

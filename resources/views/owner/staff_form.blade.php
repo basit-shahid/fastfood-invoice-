@@ -13,6 +13,14 @@
         margin-top: 20px;
     }
 
+    .form-modern-card h2 {
+        color: #0f172a;
+    }
+
+    .form-modern-card p {
+        color: #64748b;
+    }
+
     .form-label {
         font-weight: 700;
         color: #334155;
@@ -70,8 +78,30 @@
     .required-star { color: #ef4444; }
 
     .form-check-input:checked {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
+        background-color: #1d4ed8;
+        border-color: #1d4ed8;
+    }
+
+    .form-switch .form-check-input {
+        background-color: #bfdbfe;
+        border-color: #93c5fd;
+    }
+
+    .form-switch .form-check-input {
+        transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, background-position 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-check-input,
+    .form-check-label {
+        cursor: pointer;
+    }
+
+    html.dark .form-modern-card h2 {
+        color: #0f172a;
+    }
+
+    html.dark .form-modern-card p {
+        color: #64748b;
     }
 </style>
 @endpush
@@ -150,7 +180,7 @@
                         <div class="form-check form-switch mb-0">
                             <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1"
                                 {{ old('is_active', isset($user) ? $user->is_active : true) ? 'checked' : '' }}>
-                            <label class="form-check-label fw-700 ms-2" for="is_active" style="color: var(--text-color);">Enable Account Access</label>
+                            <label class="form-check-label fw-700 ms-2" for="is_active" style="color: #0f172a;">Enable Account Access</label>
                         </div>
                     </div>
 

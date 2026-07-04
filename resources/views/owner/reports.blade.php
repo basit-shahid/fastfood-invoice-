@@ -13,6 +13,7 @@
     }
 
     .table thead th {
+        
         background-color: #f8fafc;
         border-bottom: 2px solid #edf2f7;
         color: #64748b;
@@ -24,6 +25,7 @@
     }
 
     .table tbody td {
+         background-color: #f8fafc;
         padding: 15px 20px;
         vertical-align: middle;
         color: #1e293b;
@@ -57,6 +59,19 @@
         background-color: var(--primary-yellow);
         color: var(--black);
     }
+
+    .report-period-btn {
+        background: #ffffff;
+        color: #0f172a;
+        border: 1px solid #ffffff;
+    }
+
+    html.dark .report-period-btn {
+        background: #ffffff;
+        color: #0f172a;
+        border-color: #ffffff;
+        box-shadow: 0 6px 16px rgba(255,255,255,0.08);
+    }
 </style>
 @endpush
 
@@ -68,7 +83,7 @@
             <p class="text-muted mb-0">Overview of recent transactions and sales activity</p>
         </div>
         <div class="dropdown">
-            <button class="btn btn-white border-0 shadow-sm rounded-pill px-4 fw-bold" type="button">
+            <button class="btn report-period-btn shadow-sm rounded-pill px-4 fw-bold" type="button">
                 <i class="far fa-calendar-alt me-2"></i> This Month
             </button>
         </div>

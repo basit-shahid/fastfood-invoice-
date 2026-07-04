@@ -136,13 +136,13 @@
                                     {{ substr($user->name, 0, 1) }}
                                 </div>
                                 <div>
-                                    <div class="fw-800 text-dark">{{ $user->name }}</div>
+                                    <div class="fw-800 text-black">{{ $user->name }}</div>
                                     <div class="small text-muted">{{ $user->email }}</div>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <span class="badge-modern bg-{{ $user->role === 'owner' ? 'dark text-white' : ($user->role === 'manager' ? 'primary text-white' : 'light text-dark') }}">
+                            <span class="badge-modern bg-{{ $user->role === 'owner' ? 'dark text-white' : ($user->role === 'manager' ? 'primary text-white' : 'primary text-white') }}">
                                 {{ strtoupper($user->role) }}
                             </span>
                         </td>

@@ -96,6 +96,15 @@
     .btn-print { background: #fef9c3; color: #a16207; }
     .btn-print:hover { background: #fde68a; color: #854d0e; }
 
+    .history-new-order-btn {
+        color: #000000;
+    }
+
+    .history-new-order-btn:hover,
+    .history-new-order-btn:focus {
+        color: #000000 !important;
+    }
+
     html.dark .table,
     html.dark .table thead,
     html.dark .table tbody,
@@ -146,7 +155,7 @@
             <h2 class="fw-900 mb-1" style="letter-spacing: -1px;">{{ $isManagerOrOwner ? "Today's Orders" : 'Order History' }}</h2>
             <p class="text-muted mb-0">{{ $isManagerOrOwner ? "View all orders placed today by all staff members." : 'Track and manage your historical checkout sessions.' }}</p>
         </div>
-        <a href="{{ route('orders.create') }}" class="btn btn-primary rounded-pill px-4 fw-bold">
+        <a href="{{ route('orders.create') }}" class="btn btn-primary rounded-pill px-4 fw-bold history-new-order-btn">
             <i class="fas fa-plus me-2"></i> New Order
         </a>
     </div>
@@ -155,7 +164,7 @@
         <div class="card-body p-0">
             @if($orders->count() > 0)
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table mb-0">
                         <thead>
                             <tr>
                                 <th>Invoice</th>

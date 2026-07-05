@@ -4,6 +4,22 @@
 
 @push('styles')
 <style>
+    :root {
+        --staff-surface: #ffffff;
+        --staff-surface-alt: #f8fafc;
+        --staff-border: #e2e8f0;
+        --staff-text: #1e293b;
+        --staff-muted: #64748b;
+    }
+
+    html.dark {
+        --staff-surface: var(--card-bg);
+        --staff-surface-alt: #1f2430;
+        --staff-border: rgba(255,255,255,0.08);
+        --staff-text: var(--body-color);
+        --staff-muted: var(--muted-color);
+    }
+
     .page-header {
         display: flex;
         justify-content: space-between;
@@ -12,7 +28,7 @@
     }
 
     .modern-card {
-        background: white;
+        background: var(--staff-surface);
         border-radius: 24px;
         border: none;
         box-shadow: 0 10px 30px rgba(0,0,0,0.04);
@@ -20,32 +36,33 @@
     }
 
     .table-modern thead th {
-        background: #f8fafc;
+        background: var(--staff-surface-alt);
         padding: 20px;
         font-weight: 700;
         text-transform: uppercase;
         font-size: 0.75rem;
         letter-spacing: 1px;
-        color: #64748b;
-        border-bottom: 1px solid #f1f5f9;
+        color: var(--staff-muted);
+        border-bottom: 1px solid var(--staff-border);
     }
 
     .table-modern tbody td {
         padding: 20px;
-        border-bottom: 1px solid #f8fafc;
+        border-bottom: 1px solid var(--staff-border);
         vertical-align: middle;
+        color: var(--staff-text);
     }
 
     .user-avatar {
         width: 45px;
         height: 45px;
         border-radius: 12px;
-        background: #f1f5f9;
+        background: var(--staff-surface-alt);
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 800;
-        color: #334155;
+        color: var(--staff-text);
         margin-right: 15px;
     }
 
@@ -64,8 +81,8 @@
         align-items: center;
         justify-content: center;
         transition: all 0.2s;
-        border: 1px solid #e2e8f0;
-        color: #64748b;
+        border: 1px solid var(--staff-border);
+        color: var(--staff-muted);
         margin-left: 5px;
     }
 
@@ -83,8 +100,8 @@
     }
 
     .add-staff-btn {
-        background: #0f172a;
-        color: white;
+        background: #ffc107;
+        color: #0f172a;
         padding: 12px 25px;
         border-radius: 15px;
         font-weight: 700;
@@ -96,10 +113,21 @@
     }
 
     .add-staff-btn:hover {
-        background: #000;
+        background: #ffc107;
         transform: translateY(-2px);
-        color: white;
+        color: black;
         box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    html.dark .table-responsive,
+    html.dark .table,
+    html.dark .table-modern,
+    html.dark .table-modern thead,
+    html.dark .table-modern tbody,
+    html.dark .table-modern tr,
+    html.dark .table-modern td,
+    html.dark .table-modern th {
+        background-color: var(--staff-surface) !important;
     }
 </style>
 @endpush

@@ -4,8 +4,24 @@
 
 @push('styles')
 <style>
+    :root {
+        --report-surface: #ffffff;
+        --report-surface-alt: #f8fafc;
+        --report-border: #edf2f7;
+        --report-text: #1e293b;
+        --report-muted: #64748b;
+    }
+
+    html.dark {
+        --report-surface: var(--card-bg);
+        --report-surface-alt: #1f2430;
+        --report-border: rgba(255,255,255,0.08);
+        --report-text: var(--body-color);
+        --report-muted: var(--muted-color);
+    }
+
     .report-card {
-        background: white;
+        background: var(--report-surface);
         border-radius: 20px;
         border: none;
         box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -13,10 +29,9 @@
     }
 
     .table thead th {
-        
-        background-color: #f8fafc;
-        border-bottom: 2px solid #edf2f7;
-        color: #64748b;
+        background-color: var(--report-surface-alt);
+        border-bottom: 2px solid var(--report-border);
+        color: var(--report-muted);
         font-weight: 700;
         text-transform: uppercase;
         font-size: 0.8rem;
@@ -25,21 +40,21 @@
     }
 
     .table tbody td {
-         background-color: #f8fafc;
+        background-color: var(--report-surface);
         padding: 15px 20px;
         vertical-align: middle;
-        color: #1e293b;
-        border-bottom: 1px solid #f1f5f9;
+        color: var(--report-text);
+        border-bottom: 1px solid var(--report-border);
     }
 
     .order-id {
-        color: #0f172a;
+        color: var(--report-muted);
         font-weight: 700;
     }
 
     .amount-text {
         font-weight: 800;
-        color: #0f172a;
+        color: var(--report-muted);
     }
 
     .pagination {
@@ -51,7 +66,7 @@
         border-radius: 10px !important;
         margin: 0 3px;
         border: none;
-        color: #64748b;
+        color: var(--report-muted);
         font-weight: 600;
     }
 
@@ -61,16 +76,37 @@
     }
 
     .report-period-btn {
-        background: #ffffff;
-        color: #0f172a;
+        background:  #ffc107;
+        
         border: 1px solid #ffffff;
     }
 
+    .report-period-btn:hover {
+        
+        color: white;
+        transform: translateY(-2px);
+    }
+
     html.dark .report-period-btn {
-        background: #ffffff;
+        background: #ffc107;
         color: #0f172a;
-        border-color: #ffffff;
+        border-color: #ffc107;
         box-shadow: 0 6px 16px rgba(255,255,255,0.08);
+    }
+
+    html.dark .table-responsive,
+    html.dark .table,
+    html.dark .table thead,
+    html.dark .table tbody,
+    html.dark .table tr,
+    html.dark .table td,
+    html.dark .table th {
+        background-color: var(--report-surface) !important;
+    }
+
+    html.dark .border-top.bg-light {
+        background-color: var(--report-surface) !important;
+        border-color: var(--report-border) !important;
     }
 </style>
 @endpush
@@ -90,7 +126,7 @@
     </div>
 
     <div class="modern-card animate__animated animate__fadeIn">
-        <div class="table-responsive">
+        <div class="table-responsive" style="border-radius: 20px; overflow: hidden;">
             <table class="table table-modern mb-0">
                 <thead>
                     <tr>
@@ -135,7 +171,7 @@
             </table>
         </div>
         @if($recentOrders->hasPages())
-            <div class="px-4 py-3 border-top bg-light">
+            <div class="px-4 py-3 border-top bg-light report-pagination-wrap">
                 {{ $recentOrders->links() }}
             </div>
         @endif
@@ -165,6 +201,11 @@
     .page-link:hover {
         background-color: var(--bg-color);
         color: var(--primary-yellow);
+    }
+
+    html.dark .report-pagination-wrap {
+        background-color: var(--report-surface) !important;
+        border-top-color: var(--report-border) !important;
     }
 </style>
 @endpush

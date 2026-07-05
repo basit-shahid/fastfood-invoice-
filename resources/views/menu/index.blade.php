@@ -183,9 +183,9 @@
     }
 
     .add-btn:hover {
-        color: var(--black);
+        color: black;
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(255,193,7,0.4);
+        
     }
 
     /* Staggered Reveal */

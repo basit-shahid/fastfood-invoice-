@@ -8,14 +8,31 @@
 <style>
     :root {
         --pos-bg: #f8fafc;
+        --pos-surface: #ffffff;
+        --pos-surface-alt: #f8fafc;
+        --pos-surface-muted: #f1f5f9;
+        --pos-border: #e2e8f0;
+        --pos-text: #0f172a;
+        --pos-muted: #64748b;
         --accent-color: #ffc107;
         --accent-dark: #e5ac00;
         --card-shadow: 0 4px 15px rgba(0,0,0,0.03);
         --sidebar-width: 420px;
     }
 
+    html.dark {
+        --pos-bg: #0f1117;
+        --pos-surface: #171b24;
+        --pos-surface-alt: #1f2430;
+        --pos-surface-muted: #232938;
+        --pos-border: rgba(255,255,255,0.08);
+        --pos-text: #e2e8f0;
+        --pos-muted: #94a3b8;
+    }
+
     body {
         background-color: var(--pos-bg);
+        color: var(--pos-text);
         overflow: hidden;
     }
 
@@ -73,8 +90,9 @@
     .clean-input {
         padding: 12px 15px 12px 45px;
         border-radius: 16px;
-        border: 1px solid #e2e8f0;
-        background: white;
+        border: 1px solid var(--pos-border);
+        background: var(--pos-surface);
+        color: var(--pos-text);
         width: 100%;
         transition: all 0.3s;
         box-shadow: var(--card-shadow);
@@ -99,9 +117,9 @@
         white-space: nowrap;
         padding: 12px 28px;
         border-radius: 50px;
-        background: white;
-        border: 2px solid #e2e8f0;
-        color: #475569;
+        background: var(--pos-surface);
+        border: 2px solid var(--pos-border);
+        color: var(--pos-text);
         font-weight: 700;
         font-size: 1rem;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -144,7 +162,7 @@
     }
 
     .pos-item-card {
-        background: white;
+        background: var(--pos-surface);
         border-radius: 16px;
         padding: 8px;
         transition: border-color 0.2s;
@@ -157,6 +175,11 @@
         gap: 6px;
     }
 
+    html.dark .pos-item-card {
+        background: var(--pos-bg);
+        border-color: rgba(15, 23, 42, 0.08);
+    }
+
     .pos-item-card:hover {
         border-color: var(--accent-color);
         box-shadow: 0 6px 15px rgba(0,0,0,0.06);
@@ -166,7 +189,7 @@
         height: 100px; /* Reduced fixed height for compactness */
         border-radius: 12px;
         overflow: hidden;
-        background: #f1f5f9;
+        background: var(--pos-surface-muted);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -181,7 +204,7 @@
     .item-info h6 {
         margin: 0;
         font-weight: 700;
-        color: #0f172a;
+        color: var(--pos-text);
         font-size: 0.9rem; /* Smaller font */
         line-height: 1.1;
         min-height: 2.2em;
@@ -200,8 +223,8 @@
     /* Cart Sidebar */
     .cart-panel {
         width: var(--sidebar-width);
-        background: white;
-        border-left: 1px solid #e2e8f0;
+        background: var(--pos-surface);
+        border-left: 1px solid var(--pos-border);
         display: flex;
         flex-direction: column;
         z-index: 100;
@@ -210,7 +233,7 @@
 
     .cart-top {
         padding: 30px;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--pos-border);
     }
 
     .cart-body {
@@ -225,11 +248,15 @@
     .empty-state {
         margin: auto;
         text-align: center;
-        color: #94a3b8;
+        color: var(--pos-muted);
+    }
+
+    html.dark .empty-state img {
+        filter: brightness(0) invert(1);
     }
 
     .cart-item-row {
-        background: #f8fafc;
+        background: var(--pos-surface-alt);
         border-radius: 20px;
         padding: 15px;
         display: flex;
@@ -255,10 +282,10 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        background: white;
+        background: var(--pos-surface);
         padding: 5px 10px;
         border-radius: 12px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--pos-border);
     }
 
     .qty-btn {
@@ -273,8 +300,8 @@
 
     .cart-footer {
         padding: 20px 30px;
-        background: #fff;
-        border-top: 1px solid #f1f5f9;
+        background: var(--pos-surface);
+        border-top: 1px solid var(--pos-border);
         box-shadow: 0 -10px 40px rgba(0,0,0,0.02);
     }
 
@@ -301,7 +328,7 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 12px;
-        color: #64748b;
+        color: var(--pos-muted);
         font-weight: 500;
     }
 
@@ -324,7 +351,7 @@
         width: 100%;
         padding: 18px;
         border-radius: 20px;
-        background: #0f172a;
+        background: #ffb300;
         color: white;
         border: none;
         font-weight: 700;
@@ -334,7 +361,7 @@
     }
 
     .checkout-btn:hover {
-        background: #000;
+        background: #ffc107;
         transform: translateY(-2px);
         box-shadow: 0 15px 30px rgba(15, 23, 42, 0.3);
     }
@@ -409,10 +436,39 @@
     /* Modal Styling */
     .modal-content { border-radius: 30px; border: none; padding: 20px; }
     .nice-textarea {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
+        background: var(--pos-surface-alt);
+        border: 1px solid var(--pos-border);
         border-radius: 18px;
         padding: 15px;
+        color: var(--pos-text);
+    }
+
+    html.dark .modal-content {
+        background: var(--pos-surface);
+        color: var(--pos-text);
+    }
+
+    html.dark .modal-header,
+    html.dark .modal-footer {
+        border-color: var(--pos-border) !important;
+    }
+
+    html.dark .cart-footer .bg-light,
+    html.dark .cart-footer .form-control,
+    html.dark .cart-footer .form-select {
+        background-color: var(--pos-surface-alt) !important;
+        color: var(--pos-text) !important;
+        border-color: var(--pos-border) !important;
+    }
+
+    html.dark .cart-footer .form-control::placeholder,
+    html.dark .clean-input::placeholder,
+    html.dark .nice-textarea::placeholder {
+        color: var(--pos-muted);
+    }
+
+    html.dark .cat-pill.active {
+        color: #000;
     }
 </style>
 @endpush

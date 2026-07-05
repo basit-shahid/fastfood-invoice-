@@ -5,6 +5,7 @@
 @push('styles')
 <style>
     .form-modern-card {
+        color: black;
         background: white;
         border-radius: 30px;
         border: none;
@@ -182,7 +183,7 @@
                         <div class="form-check form-switch mb-0">
                             <input class="form-check-input" type="checkbox" id="is_available" name="is_available" value="1" 
                                 {{ old('is_available', $menuItem->is_available ?? true) ? 'checked' : '' }}>
-                            <label class="form-check-label fw-700 ms-2" for="is_available" style="color: var(--text-color);">Item is Available for Sale</label>
+                            <label class="form-check-label fw-700 ms-2" for="is_available" style="color: black;">Item is Available for Sale</label>
                         </div>
                     </div>
 

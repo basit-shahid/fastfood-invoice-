@@ -140,6 +140,10 @@ class OwnerController extends Controller
     
     public function updateStaff(Request $request, User $user)
     {
+        if (auth()->user()->role === 'manager' && $user->role === 'owner') {
+            return redirect()->route('staff.index')->with('error', 'Managers cannot edit owner accounts.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
@@ -170,6 +174,10 @@ class OwnerController extends Controller
     {
         if ($user->id === auth()->id()) {
             return redirect()->route('staff.index')->with('error', 'You cannot delete yourself.');
+        }
+
+        if (auth()->user()->role === 'manager' && $user->role === 'owner') {
+            return redirect()->route('staff.index')->with('error', 'Managers cannot delete owner accounts.');
         }
         
         $user->delete();

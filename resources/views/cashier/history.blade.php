@@ -4,8 +4,26 @@
 
 @push('styles')
 <style>
+    :root {
+        --history-surface: #ffffff;
+        --history-surface-alt: #f8fafc;
+        --history-border: #edf2f7;
+        --history-text: #1e293b;
+        --history-muted: #64748b;
+        --history-row: #f1f5f9;
+    }
+
+    html.dark {
+        --history-surface: var(--card-bg);
+        --history-surface-alt: #1f2430;
+        --history-border: rgba(255,255,255,0.08);
+        --history-text: var(--body-color);
+        --history-muted: var(--muted-color);
+        --history-row: #171b24;
+    }
+
     .history-card {
-        background: white;
+        background: var(--history-surface);
         border-radius: 20px;
         border: none;
         box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -13,9 +31,9 @@
     }
 
     .table thead th {
-        background-color: #f8fafc;
-        border-bottom: 2px solid #edf2f7;
-        color: #64748b;
+        background-color: var(--history-surface-alt);
+        border-bottom: 2px solid var(--history-border);
+        color: var(--history-muted);
         font-weight: 700;
         text-transform: uppercase;
         font-size: 0.8rem;
@@ -26,12 +44,12 @@
     .table tbody td {
         padding: 15px 20px;
         vertical-align: middle;
-        color: #1e293b;
-        border-bottom: 1px solid #f1f5f9;
+        color: var(--history-text);
+        border-bottom: 1px solid var(--history-border);
     }
 
     .invoice-link {
-        color: #0f172a;
+        color: var(--history-text);
         font-weight: 700;
         text-decoration: none;
         transition: color 0.2s;
@@ -53,9 +71,9 @@
     .status-pending { background: #fef9c3; color: #a16207; }
 
     .date-row {
-        background-color: #f1f5f9;
+        background-color: var(--history-row);
         font-weight: 800;
-        color: #475569;
+        color: var(--history-muted);
         text-transform: uppercase;
         font-size: 0.85rem;
         letter-spacing: 0.1em;
@@ -77,6 +95,44 @@
 
     .btn-print { background: #fef9c3; color: #a16207; }
     .btn-print:hover { background: #fde68a; color: #854d0e; }
+
+    html.dark .table,
+    html.dark .table thead,
+    html.dark .table tbody,
+    html.dark .table tr,
+    html.dark .table td,
+    html.dark .table th,
+    html.dark .history-card,
+    html.dark .card-body,
+    html.dark .table-responsive {
+        background-color: var(--history-surface) !important;
+    }
+
+    html.dark .badge.bg-light {
+        background-color: var(--history-surface-alt) !important;
+        color: var(--history-text) !important;
+        border-color: var(--history-border) !important;
+    }
+
+    html.dark .btn-view {
+        background: var(--history-surface-alt);
+        color: var(--history-muted);
+    }
+
+    html.dark .btn-view:hover {
+        background: rgba(255,255,255,0.08);
+        color: var(--history-text);
+    }
+
+    html.dark .btn-print {
+        background: rgba(245, 158, 11, 0.18);
+        color: #fcd34d;
+    }
+
+    html.dark .btn-print:hover {
+        background: rgba(245, 158, 11, 0.28);
+        color: #fde68a;
+    }
 </style>
 @endpush
 

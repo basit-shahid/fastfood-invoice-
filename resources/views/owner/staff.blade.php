@@ -9,7 +9,7 @@
         --staff-surface-alt: #f8fafc;
         --staff-border: #e2e8f0;
         --staff-text: #1e293b;
-        --staff-muted: #64748b;
+        --staff-muted: #62748d;
     }
 
     html.dark {
@@ -53,6 +53,15 @@
         color: var(--staff-text);
     }
 
+    .staff-name {
+        color: var(--staff-text);
+        font-weight: 800;
+    }
+
+    html.dark .staff-name {
+        color: var(--staff-muted);
+    }
+
     .user-avatar {
         width: 45px;
         height: 45px;
@@ -89,7 +98,7 @@
     .btn-action:hover {
         background: var(--accent-color);
         border-color: var(--accent-color);
-        color: #000;
+        color:white;
         transform: translateY(-2px);
     }
 
@@ -128,6 +137,7 @@
     html.dark .table-modern td,
     html.dark .table-modern th {
         background-color: var(--staff-surface) !important;
+        
     }
 </style>
 @endpush
@@ -164,13 +174,13 @@
                                     {{ substr($user->name, 0, 1) }}
                                 </div>
                                 <div>
-                                    <div class="fw-800 text-black">{{ $user->name }}</div>
+                                    <div class="staff-name">{{ $user->name }}</div>
                                     <div class="small text-muted">{{ $user->email }}</div>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <span class="badge-modern bg-{{ $user->role === 'owner' ? 'dark text-white' : ($user->role === 'manager' ? 'primary text-white' : 'primary text-white') }}">
+                            <span class="badge-modern bg-{{ $user->role === 'owner' ? 'primary text-white' : ($user->role === 'manager' ? 'primary text-white' : 'primary text-white') }}">
                                 {{ strtoupper($user->role) }}
                             </span>
                         </td>
@@ -180,10 +190,12 @@
                             </span>
                         </td>
                         <td class="text-end">
-                            <a href="{{ route('staff.edit', $user) }}" class="btn-action" title="Edit Staff">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            @if($user->id !== auth()->id())
+                            @if(! (auth()->user()->role === 'manager' && $user->role === 'owner'))
+                                <a href="{{ route('staff.edit', $user) }}" class="btn-action" title="Edit Staff">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            @endif
+                            @if($user->id !== auth()->id() && ! (auth()->user()->role === 'manager' && $user->role === 'owner'))
                             <form action="{{ route('staff.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Remove this staff member?');">
                                 @csrf
                                 @method('DELETE')

@@ -79,7 +79,7 @@
                         Welcome back, <span class="text-warning">{{ auth()->user()->name }}</span>!
                     </h1>
                     
-                    <p class="text-muted fs-5 mb-5 px-lg-5">
+                    <p class="text-surface fs-5 mb-5 px-lg-5">
                         Manage your point of sale session and track historical orders with ease. A dose of flavor, seamlessly executed.
                     </p>
                     

@@ -125,6 +125,33 @@
     .status-completed { background: #dcfce7; color: #166534; }
     .status-cancelled { background: #fee2e2; color: #991b1b; }
 
+    .recent-orders-table tbody tr,
+    .recent-orders-table tbody tr > * {
+        background-color: transparent;
+        transition: none;
+    }
+
+    .recent-orders-table tbody tr:hover,
+    .recent-orders-table tbody tr:hover > * {
+        background-color: transparent !important;
+        color: inherit !important;
+        box-shadow: none !important;
+    }
+
+    .recent-orders-all-btn {
+        color: #ffffff !important;
+        border-color: rgba(255, 255, 255, 0.85) !important;
+        background: transparent !important;
+    }
+
+    .recent-orders-all-btn:hover,
+    .recent-orders-all-btn:focus {
+        color: #ffffff !important;
+        border-color: rgba(255, 255, 255, 1) !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
     html.dark .time-badge { background: rgba(255,255,255,0.08); color: var(--body-color); }
     html.dark .stat-card { box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
     html.dark h4, html.dark h5 { color: var(--body-color); }
@@ -145,7 +172,7 @@
                 <div class="time-badge mb-3">
                     <i class="far fa-clock"></i>
                     <span id="pakt-time">{{ now()->timezone('Asia/Karachi')->format('h:i A') }}</span>
-                    <span class="text-muted small ms-2">Pakistan Time</span>
+                    <span class="text-surface small ms-2">Pakistan Time</span>
                 </div>
                 <div class="d-flex align-items-center gap-3 flex-wrap">
                     <h1 class="display-4 fw-900 mb-0">Hello, Manager!</h1>
@@ -155,7 +182,7 @@
                     <a href="{{ route('orders.create') }}" class="btn btn-dark rounded-pill px-4 py-2 me-2 mb-2 mb-lg-0 fw-bold border-2">
                         <i class="fas fa-cash-register me-1" style="color:#ffc107;"></i> New Order
                     </a>
-                    <a href="{{ route('orders.history') }}" class="btn btn-outline-dark rounded-pill px-4 py-2 mb-2 mb-lg-0 fw-bold border-2">
+                    <a href="{{ route('orders.history') }}" class="btn btn-dark rounded-pill px-4 py-2 mb-2 mb-lg-0 fw-bold border-2">
                         View Timeline
                     </a>
                 </div>
@@ -236,11 +263,11 @@
             <div class="card border-0 shadow-sm rounded-4 p-4 h-100 info-card" style="background: var(--card-bg); border: 1px solid var(--card-border);">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h5 class="fw-900 mb-0"><i class="fas fa-clock me-2" style="color:#e5ac00;"></i>Recent Orders</h5>
-                    <a href="{{ route('orders.history') }}" class="btn btn-sm btn-outline-dark rounded-pill border-2 fw-bold">All Orders</a>
+                    <a href="{{ route('orders.history') }}" class="btn btn-sm btn-outline-dark rounded-pill border-2 fw-bold recent-orders-all-btn">All Orders</a>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table align-middle mb-0 border-0">
+                    <table class="table align-middle mb-0 border-0 recent-orders-table">
                         <thead>
                             <tr>
                                 <th class="text-muted text-uppercase" style="font-size:0.75rem">Invoice</th>

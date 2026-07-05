@@ -32,7 +32,7 @@ FastFood Invoice System is a Laravel-based POS and restaurant operations platfor
 
 ## Role Flow
 
-```mermaid
+```
 flowchart TD
     A[Login Form] --> B[Validate Credentials]
     B --> C[Send OTP]

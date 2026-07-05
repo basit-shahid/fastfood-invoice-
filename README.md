@@ -1,10 +1,6 @@
 # FastFood Invoice System
 
 <p align="center">
-  <img src="public/images/logo.png" alt="FastFood Invoice System Logo" width="180">
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=flat-square&logo=laravel&logoColor=white" alt="Laravel 12">
   <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP 8.2+">
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="MIT License">

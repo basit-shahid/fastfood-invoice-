@@ -244,6 +244,17 @@
                     </button>
                 </form>
                 
+                <div class="text-center my-3 fw-bold text-muted">
+                    <span>— OR —</span>
+                </div>
+
+                <form method="POST" action="{{ route('login.guest') }}">
+                    @csrf
+                    <button type="submit" class="btn w-100 fw-bold text-dark" style="padding: 12px; border-radius: 10px; border: 2px solid var(--primary-yellow); background: transparent; transition: all 0.3s; font-size: 1.05rem;" onmouseover="this.style.background='rgba(255,193,7,0.1)'" onmouseout="this.style.background='transparent'">
+                        <i class="fas fa-user-shield me-2"></i> Log in as Guest
+                    </button>
+                </form>
+                
                 
             </div>
         </div>

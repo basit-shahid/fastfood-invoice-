@@ -42,6 +42,16 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
         
+        // Create guest
+        User::create([
+            'name' => 'Guest User',
+            'email' => 'guest@fastfood.com',
+            'password' => Hash::make('guest12345'),
+            'role' => 'guest',
+            'phone' => '1234567899',
+            'is_active' => true,
+        ]);
+        
         // Create sample menu items
         $menuItems = [
             [

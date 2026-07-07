@@ -117,7 +117,7 @@ class OwnerController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'secondary_email' => 'nullable|string|email|max:255',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,owner,manager,cashier',
+            'role' => 'required|in:admin,owner,manager,cashier,guest',
             'is_active' => 'nullable|boolean'
         ]);
         
@@ -149,7 +149,7 @@ class OwnerController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'secondary_email' => 'nullable|string|email|max:255',
             'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|in:admin,owner,manager,cashier',
+            'role' => 'required|in:admin,owner,manager,cashier,guest',
             'is_active' => 'nullable|boolean'
         ]);
         

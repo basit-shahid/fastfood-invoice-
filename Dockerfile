@@ -2,7 +2,7 @@ FROM php:8.2-apache
 
 # Install system dependencies & PHP extensions needed for Laravel
 RUN apt-get update && apt-get install -y \
-    libpng-dev libonig-dev libxml2-dev zip unzip git curl
+    libpng-dev libonig-dev libxml2-dev libsqlite3-dev zip unzip git curl
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
@@ -20,6 +20,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 COPY . .
+
+# Ensure the SQLite database file exists before Laravel starts
+RUN mkdir -p database && touch database/database.sqlite
 
 # Install production dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev

@@ -109,6 +109,29 @@ class AuthController extends Controller
         return back()->with('success', 'A new OTP has been sent to your email.');
     }
 
+    public function loginGuest(Request $request)
+    {
+        $guest = User::firstOrCreate(
+            ['email' => 'guest@fastfood.com'],
+            [
+                'name' => 'Guest User',
+                'password' => \Illuminate\Support\Facades\Hash::make('guest12345'),
+                'role' => 'guest',
+                'phone' => '1234567899',
+                'is_active' => true,
+            ]
+        );
+
+        if (!$guest->is_active) {
+            $guest->update(['is_active' => true]);
+        }
+
+        Auth::login($guest);
+        session()->forget(['otp_user_id', 'remember']);
+
+        return redirect()->route('owner.dashboard');
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();

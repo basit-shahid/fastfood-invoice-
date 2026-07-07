@@ -104,6 +104,29 @@ php artisan serve
 
 Then open the app at `http://127.0.0.1:8000`.
 
+## Cloudflare Tunnel With Docker for drshawarma.me
+
+Use this when you want the app reachable from your own domain without opening inbound ports on the server.
+
+1. Create a Cloudflare tunnel and download the credentials JSON file.
+2. Place the credentials file at `cloudflared/fastfood-invoice-system.json`.
+3. Edit `cloudflared/config.yml` if needed and keep the hostname set to `drshawarma.me`.
+4. Set `APP_URL` in `.env` to `https://drshawarma.me`.
+5. Start the stack:
+
+```bash
+docker compose up -d --build
+```
+
+The `app` container serves Laravel on port 80 inside the Docker network, and the `cloudflared` container forwards your domain to that service.
+
+Recommended production settings for Cloudflare access:
+
+- `APP_ENV=production`
+- `APP_DEBUG=false`
+- `APP_URL=https://drshawarma.me`
+- `SESSION_SECURE_COOKIE=true`
+
 ## Development Scripts
 
 The repository includes helpful Composer scripts:

@@ -1,0 +1,9 @@
+tunnel: fastfood-invoice-system
+credentials-file: /etc/cloudflared/fastfood-invoice-system.json
+
+ingress:
+  - hostname: drshawarma.me
+    service: http://app:80
+  - hostname: www.drshawarma.me
+    service: http://app:80
+  - service: http_status:404

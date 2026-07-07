@@ -42,6 +42,10 @@ class MenuController extends Controller
             'stock_id' => 'nullable|exists:stocks,id',
         ]);
 
+        if (auth()->user()->isGuest() && $request->hasFile('image')) {
+            return back()->withErrors(['image' => 'Guest profiles are not permitted to upload image files due to security policies.'])->withInput();
+        }
+
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('menu-items', 'public');
             $validated['image'] = $path;
@@ -70,6 +74,10 @@ class MenuController extends Controller
             'preparation_time' => 'integer|min:1',
             'stock_id' => 'nullable|exists:stocks,id',
         ]);
+
+        if (auth()->user()->isGuest() && $request->hasFile('image')) {
+            return back()->withErrors(['image' => 'Guest profiles are not permitted to upload image files due to security policies.'])->withInput();
+        }
 
         if ($request->hasFile('image')) {
             if ($menuItem->image) {

@@ -14,6 +14,7 @@ Route::get('/', function () {
 // Auth routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login/guest', [AuthController::class, 'loginGuest'])->name('login.guest');
 Route::get('/otp-verify', [AuthController::class, 'showOtpForm'])->name('otp.verify');
 Route::post('/otp-verify', [AuthController::class, 'verifyOtp']);
 Route::post('/otp-resend', [AuthController::class, 'resendOtp'])->name('otp.resend');
@@ -27,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
     
     // Cashier routes (and above)
-    Route::prefix('cashier')->middleware([\App\Http\Middleware\RoleMiddleware::class.':cashier,manager,owner'])->group(function () {
+    Route::prefix('cashier')->middleware([\App\Http\Middleware\RoleMiddleware::class.':cashier,manager,owner,guest'])->group(function () {
         Route::get('/dashboard', function () {
             return view('cashier.dashboard');
         })->name('cashier.dashboard');
@@ -37,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
     });
     
     // Manager & Owner routes
-    Route::middleware([\App\Http\Middleware\RoleMiddleware::class.':manager,owner'])->group(function () {
+    Route::middleware([\App\Http\Middleware\RoleMiddleware::class.':manager,owner,guest'])->group(function () {
         Route::prefix('manager')->group(function () {
             Route::get('/dashboard', function () {
                 $totalMenuItems = \App\Models\MenuItem::count();
@@ -109,7 +110,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Owner specific routes
-    Route::prefix('owner')->middleware([\App\Http\Middleware\RoleMiddleware::class.':owner'])->group(function () {
+    Route::prefix('owner')->middleware([\App\Http\Middleware\RoleMiddleware::class.':owner,guest'])->group(function () {
         Route::get('/dashboard', [OwnerController::class, 'dashboard'])->name('owner.dashboard');
         Route::get('/reports', [OwnerController::class, 'reports'])->name('owner.reports');
         Route::get('/export-report', [OwnerController::class, 'exportPdf'])->name('owner.export.pdf');

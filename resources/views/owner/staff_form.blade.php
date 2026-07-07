@@ -170,6 +170,9 @@
                         <label for="role" class="form-label">ASSIGN ROLE <span class="required-star">*</span></label>
                         <select class="form-select" id="role" name="role" required>
                             <option value="" disabled {{ !isset($user) ? 'selected' : '' }}>-- Select System Role --</option>
+                            @if(isset($user) && $user->role == 'guest')
+                                <option value="guest" {{ old('role', $user->role) == 'guest' ? 'selected' : '' }}>Guest (Demo Access)</option>
+                            @endif
                             <option value="cashier" {{ old('role', $user->role ?? '') == 'cashier' ? 'selected' : '' }}>Cashier (POS Only)</option>
                             <option value="manager" {{ old('role', $user->role ?? '') == 'manager' ? 'selected' : '' }}>Manager (Reports & Menu)</option>
                             <option value="owner" {{ old('role', $user->role ?? '') == 'owner' ? 'selected' : '' }}>Owner (Full Access)</option>

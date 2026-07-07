@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->role === 'cashier';
     }
+
+    public function isGuest()
+    {
+        return $this->role === 'guest';
+    }
 }

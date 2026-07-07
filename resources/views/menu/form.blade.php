@@ -154,7 +154,12 @@
                         <label class="form-label">ITEM IMAGE</label>
                         <div class="image-upload-wrapper">
                             <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
-                            <input class="form-control" type="file" id="image" name="image" accept="image/*">
+                            <input class="form-control" type="file" id="image" name="image" accept="image/*" @if(auth()->user()->isGuest()) disabled @endif>
+                            @if(auth()->user()->isGuest())
+                                <div class="text-danger small mt-2 fw-bold">
+                                    <i class="fas fa-lock me-1"></i> File uploads are disabled for Guest accounts.
+                                </div>
+                            @endif
                             @if(isset($menuItem) && $menuItem->image)
                                 <div class="mt-3">
                                     <div class="badge bg-info text-dark">Current image exists</div>

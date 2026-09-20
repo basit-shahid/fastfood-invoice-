@@ -2,10 +2,10 @@ FROM php:8.2-apache
 
 # Install system dependencies & PHP extensions needed for Laravel
 RUN apt-get update && apt-get install -y \
-    libpng-dev libonig-dev libxml2-dev libsqlite3-dev zip unzip git curl
+    libpng-dev libonig-dev libxml2-dev libsqlite3-dev zip unzip git curl libpq-dev
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 
 # Enable Apache mod_rewrite for Laravel routing
 RUN a2enmod rewrite

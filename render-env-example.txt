@@ -1,0 +1,35 @@
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-render-app.onrender.com
+
+DB_CONNECTION=pgsql
+DB_HOST=ep-restless-dust-b560074e-pooler.c-7.us-east-2.aws.neon.tech
+DB_PORT=5432
+DB_DATABASE=neondb
+DB_USERNAME=neondb_owner
+DB_PASSWORD=npg_hcL60CSsHwlk
+DB_SSLMODE=require
+
+DB_URL=postgresql://neondb_owner:npg_hcL60CSsHwlk@ep-restless-dust-b560074e-pooler.c-7.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+
+CACHE_STORE=file
+SESSION_DRIVER=file
+QUEUE_CONNECTION=sync
+
+# Optional if your app uses mail:
+# MAIL_MAILER=log
+# MAIL_HOST=smtp.gmail.com
+# MAIL_PORT=587
+# MAIL_USERNAME=your-email
+# MAIL_PASSWORD=your-password
+# MAIL_ENCRYPTION=tls
+# MAIL_FROM_ADDRESS=your-email
+# MAIL_FROM_NAME="Dr. Shawarma"
+
+# If you want to keep it simple, do not use SQLite on Render free tier.
+# Do not keep these old values on Render:
+# DB_CONNECTION=mysql
+# DB_HOST=db
+# DB_DATABASE=laravel
+# DB_USERNAME=laravel_user
+# DB_PASSWORD=laravel_pass

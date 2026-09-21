@@ -24,6 +24,7 @@ class AuthController extends Controller
         if (Auth::validate(array_merge($credentials, ['is_active' => true]))) {
             $user = User::where('email', $request->email)->first();
             
+            /* -- OTP Feature Disabled --
             // Generate OTP
             $otp = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
             $user->update([
@@ -39,6 +40,18 @@ class AuthController extends Controller
             session(['otp_user_id' => $user->id, 'remember' => $request->has('remember')]);
 
             return redirect()->route('otp.verify');
+            */
+
+            // Direct login for disabled OTP
+            Auth::login($user, $request->has('remember'));
+
+            if ($user->role == 'owner') {
+                return redirect()->route('owner.dashboard');
+            } elseif ($user->role == 'manager') {
+                return redirect()->route('manager.dashboard');
+            } else {
+                return redirect()->route('cashier.dashboard');
+            }
         }
 
         // Check if user exists but is inactive
@@ -54,6 +67,7 @@ class AuthController extends Controller
         ]);
     }
 
+    /* -- OTP Methods Commented Out --
     public function showOtpForm()
     {
         if (!session()->has('otp_user_id')) {
@@ -108,6 +122,7 @@ class AuthController extends Controller
 
         return back()->with('success', 'A new OTP has been sent to your email.');
     }
+    */
 
     public function loginGuest(Request $request)
     {

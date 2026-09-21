@@ -15,9 +15,9 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/login/guest', [AuthController::class, 'loginGuest'])->name('login.guest');
-Route::get('/otp-verify', [AuthController::class, 'showOtpForm'])->name('otp.verify');
-Route::post('/otp-verify', [AuthController::class, 'verifyOtp']);
-Route::post('/otp-resend', [AuthController::class, 'resendOtp'])->name('otp.resend');
+// Route::get('/otp-verify', [AuthController::class, 'showOtpForm'])->name('otp.verify');
+// Route::post('/otp-verify', [AuthController::class, 'verifyOtp']);
+// Route::post('/otp-resend', [AuthController::class, 'resendOtp'])->name('otp.resend');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Protected routes

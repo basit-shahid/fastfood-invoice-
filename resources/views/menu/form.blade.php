@@ -33,12 +33,12 @@
     .form-control:focus, .form-select:focus {
         border-color: var(--accent-color);
         background: white;
-        box-shadow: 0 0 0 4px rgba(255,193,7,0.1);
+        box-shadow: 0 0 0 4px rgba(8,127,109,0.1);
         outline: none;
     }
 
     .btn-save {
-        background: #ffc107;
+        background: #087f6d;
         color: #000;
         padding: 15px 30px;
         border-radius: 18px;
@@ -50,9 +50,9 @@
     }
 
     .btn-save:hover {
-        background: #ffb300;
+        background: #066655;
         transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(255,193,7,0.2);
+        box-shadow: 0 10px 20px rgba(8,127,109,0.2);
     }
 
     .back-btn {

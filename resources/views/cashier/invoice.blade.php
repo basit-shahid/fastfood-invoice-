@@ -43,7 +43,7 @@
             font-size: 24px;
             font-weight: 900;
             letter-spacing: -1px;
-            color: #ffb300;
+            color: #066655;
             text-transform: uppercase;
         }
 
@@ -188,9 +188,9 @@
     <div class="invoice-box">
         <div class="header">
             <div class="brand">
-                <h1>{{ config('app.name', 'DOCTOR SHAWARMA') }}</h1>
-                <p>city | +92 3299696456</p>
-                <p>Deliciously Crafting Quality Since 2024</p>
+                <h1>{{ config('product.name') }}</h1>
+                <p>Sales receipt</p>
+                <p>Order and payment details</p>
             </div>
             <div class="meta-info">
                 <h2 style="color:black">INVOICE</h2>
@@ -279,7 +279,7 @@
         </div>
 
         <div class="footer">
-            <p>Thank you for choosing {{ config('app.name', 'Doctor Shawarma') }}!</p>
+            <p>Thank you for choosing {{ config('product.name') }}!</p>
             <p>Visit us again soon for more delicious treats.</p>
         </div>
     </div>

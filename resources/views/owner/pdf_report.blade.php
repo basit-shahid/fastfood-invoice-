@@ -12,7 +12,7 @@
         }
         .header {
             text-align: center;
-            border-bottom: 2px solid #ffc107;
+            border-bottom: 2px solid #087f6d;
             padding-bottom: 20px;
             margin-bottom: 30px;
         }
@@ -83,7 +83,7 @@
 <body>
 
     <div class="header">
-        <h1>Dr. Shawarma - Business Report</h1>
+        <h1>{{ config('product.name') }} · Business Report</h1>
         <p>Report Period: <strong>{{ $monthName }}</strong></p>
         <p>Generated on: {{ now()->format('d M Y, h:i A') }}</p>
     </div>
@@ -127,7 +127,7 @@
     </table>
     
     <div class="footer">
-        Confidential Business Report for Dr. Shawarma Management.
+        Confidential business report · {{ config('product.name') }}
     </div>
 
 </body>

@@ -34,7 +34,7 @@
         position: absolute;
         top: 0; left: 0; right: 0;
         height: 4px;
-        background: linear-gradient(90deg, #ffc107, #ff9f43);
+        background: linear-gradient(90deg, #087f6d, #63baa0);
         transform: scaleX(0);
         transform-origin: left;
         transition: transform 0.35s ease;
@@ -177,7 +177,7 @@
         font-weight: 800;
         transition: all 0.3s;
         border: none;
-        box-shadow: 0 5px 15px rgba(255,193,7,0.3);
+        box-shadow: 0 5px 15px rgba(8,127,109,0.3);
         display: inline-flex;
         align-items: center;
     }

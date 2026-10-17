@@ -3,11 +3,26 @@
     "use strict";
     const $ = (id) => document.getElementById(id);
     const config = window.counterflowRegister;
+    const form = $("checkout-form");
+    // Keep a native POST path available if this module fails after items have been added.
+    form.noValidate = true;
+    const listenMedia = (media, callback) => {
+        if (typeof media.addEventListener === "function")
+            media.addEventListener("change", callback);
+        else if (typeof media.addListener === "function")
+            media.addListener(callback);
+    };
+    function showFeedback(message) {
+        $("checkout-feedback").textContent = message;
+        $("checkout-feedback").scrollIntoView({ block: "nearest" });
+    }
+
     const cards = [...document.querySelectorAll(".pos-item-card")];
     const cart = [];
     let category = "all";
     let editingItem = null;
     let submitting = false;
+    let checkoutComplete = false;
     let checkoutUncertain = false;
     const currency = (value) =>
         "PKR " +
@@ -67,7 +82,7 @@
     );
     cards.forEach((card) =>
         card.addEventListener("click", () => {
-            if (submitting || checkoutUncertain) return;
+            if (submitting || checkoutUncertain || checkoutComplete) return;
             const existing = cart.find((item) => item.id === card.dataset.id);
             if (existing) existing.quantity++;
             else
@@ -91,6 +106,9 @@
         const cash = $("payment-method").value === "cash";
         const received = number("cash-received");
         $("cash-input-wrap").hidden = !cash;
+        $("cash-received").required = cash;
+        $("cash-received").disabled = !cash || submitting;
+        $("cash-received").min = total.toFixed(2);
         $("change-wrap").classList.toggle(
             "d-none",
             !cash || !cart.length || received < total,
@@ -98,9 +116,24 @@
         $("change-val").textContent = currency(Math.max(0, received - total));
         $("discount").max = subtotal.toFixed(2);
         $("process-order").disabled =
-            !cart.length || submitting || checkoutUncertain;
+            !cart.length || submitting || checkoutUncertain || checkoutComplete;
     }
     function renderCart() {
+        const inputs = document.createDocumentFragment();
+        cart.forEach((item, index) => {
+            for (const [name, value] of Object.entries({
+                id: item.id,
+                quantity: item.quantity,
+                instructions: item.instructions,
+            })) {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = `items[${index}][${name}]`;
+                input.value = value;
+                inputs.appendChild(input);
+            }
+        });
+        $("checkout-items").replaceChildren(inputs);
         const count = cart.reduce((sum, item) => sum + item.quantity, 0);
         $("cart-count").textContent = count;
         $("order-item-count").textContent = count
@@ -108,7 +141,7 @@
               (count === 1 ? " item in this order" : " items in this order")
             : "No items added";
         $("clear-order").disabled =
-            !cart.length || submitting || checkoutUncertain;
+            !cart.length || submitting || checkoutUncertain || checkoutComplete;
         if (!cart.length)
             $("cart-content").innerHTML =
                 '<div class="empty-state"><div class="ticket-mark" aria-hidden="true">＋</div><h5>Nothing on the ticket.</h5><p>Tap something good to start.</p></div>';
@@ -123,7 +156,8 @@
     }
     $("cart-content").addEventListener("click", (event) => {
         const button = event.target.closest("[data-action]");
-        if (!button || submitting || checkoutUncertain) return;
+        if (!button || submitting || checkoutUncertain || checkoutComplete)
+            return;
         const index = Number(button.dataset.index);
         const item = cart[index];
         if (!item) return;
@@ -186,7 +220,7 @@
             $("cart-sidebar").removeAttribute("aria-modal");
         }
     }
-    mobileCart.addEventListener("change", () => {
+    listenMedia(mobileCart, () => {
         if (!mobileCart.matches) {
             $("cart-sidebar").classList.remove("open");
             $("cart-backdrop").hidden = true;
@@ -244,8 +278,15 @@
             }
         }
     });
-    $("process-order").addEventListener("click", async () => {
-        if (!cart.length || submitting || checkoutUncertain) return;
+    $("exact-cash").addEventListener("click", () => {
+        $("cash-received").value = totals().total.toFixed(2);
+        $("checkout-feedback").textContent = "";
+        renderTotals();
+    });
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!cart.length || submitting || checkoutUncertain || checkoutComplete)
+            return;
         const { subtotal, discount, total } = totals();
         const cash = $("payment-method").value === "cash";
         if (
@@ -254,6 +295,9 @@
             discount > subtotal
         ) {
             document.querySelector(".discount-details").open = true;
+            showFeedback(
+                "Enter a valid discount that does not exceed the subtotal.",
+            );
             $("discount").reportValidity();
             return;
         }
@@ -262,8 +306,9 @@
             (!$("cash-received").checkValidity() ||
                 number("cash-received") < total)
         ) {
-            $("checkout-feedback").textContent =
-                "Cash received must cover the total due.";
+            showFeedback(
+                "Enter cash received or choose Exact to cover the total due.",
+            );
             $("cash-received").focus();
             return;
         }
@@ -275,8 +320,11 @@
         renderTotals();
         const fields = [$("discount"), $("cash-received"), $("payment-method")];
         fields.forEach((field) => (field.disabled = true));
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 45000);
         try {
             const response = await fetch(config.storeUrl, {
+                signal: controller.signal,
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
@@ -316,28 +364,43 @@
                           : result.order_saved === false
                             ? "The order was not saved. Your items are still here; please try again."
                             : "The order could not be completed. Please check your session.";
-                throw new Error(message || "Please check the order details.");
+                const reference = result.error_code
+                    ? " (reference: " + result.error_code + ")"
+                    : "";
+                throw new Error(
+                    (message || "Please check the order details.") + reference,
+                );
             }
-            resetOrder();
-            document.querySelector(".discount-details").open = false;
-            $("checkout-feedback").innerHTML =
-                `Saved · ${escape(currency(Number(result.order.total)))}. <a href="${escape(config.invoiceUrl)}/${encodeURIComponent(result.order.id)}/invoice?view=1" target="_blank" rel="noopener">View receipt ↗</a>`;
+            checkoutComplete = true;
+            window.location.assign(
+                config.historyUrl +
+                    "?order=" +
+                    encodeURIComponent(result.order.id),
+            );
+            return;
         } catch (error) {
-            if (!(error instanceof Error) || error.name === "TypeError")
+            if (
+                !(error instanceof Error) ||
+                error.name === "TypeError" ||
+                error.name === "AbortError"
+            )
                 checkoutUncertain = true;
             if (checkoutUncertain) {
                 $("checkout-feedback").innerHTML =
                     `Could not confirm the result. <a href="${escape(config.historyUrl)}">Check order history</a> before placing it again.`;
             } else {
-                $("checkout-feedback").textContent = error.message;
+                showFeedback(error.message);
             }
+            $("checkout-feedback").scrollIntoView({ block: "nearest" });
         } finally {
+            clearTimeout(timeout);
             submitting = false;
             fields.forEach((field) => (field.disabled = false));
             $("process-order").innerHTML =
                 '<span>Place order</span><i class="fas fa-arrow-right" aria-hidden="true"></i>';
             renderTotals();
-            $("clear-order").disabled = !cart.length || checkoutUncertain;
+            $("clear-order").disabled =
+                !cart.length || checkoutUncertain || checkoutComplete;
         }
     });
     filterMenu();

@@ -129,4 +129,29 @@ class OrderCheckoutTest extends TestCase
         $this->assertDatabaseCount('orders', 1);
         $this->assertDatabaseCount('order_items', 2);
     }
+
+    public function test_browser_form_checkout_redirects_to_history_and_displays_the_saved_order(): void
+    {
+        $this->actingAs(User::factory()->create(['role' => 'cashier']));
+        $item = $this->item();
+        $response = $this->post(route('orders.store'), [
+            'items' => [['id' => $item->id, 'quantity' => 2]],
+            'payment_method' => 'cash', 'cash_received' => '600.00', 'discount' => 0,
+        ]);
+        $order = Order::sole();
+        $response->assertRedirect(route('orders.history', ['order' => $order->id]));
+        $this->get(route('orders.history', ['order' => $order->id]))
+            ->assertOk()->assertSee($order->invoice_number)->assertSee('Just saved')->assertSee($item->name);
+        $this->assertSame('500.00', $order->total);
+        $this->assertSame('100.00', $order->change_amount);
+    }
+
+    public function test_json_checkout_returns_a_saved_order_that_is_visible_in_history(): void
+    {
+        $this->actingAs(User::factory()->create(['role' => 'cashier']));
+        $item = $this->item();
+        $response = $this->checkout([['id' => $item->id, 'quantity' => 1]])->assertOk();
+        $this->get(route('orders.history', ['order' => $response->json('order.id')]))
+            ->assertOk()->assertSee($response->json('order.invoice_number'))->assertSee('Just saved');
+    }
 }

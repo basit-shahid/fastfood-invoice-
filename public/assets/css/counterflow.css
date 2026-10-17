@@ -2441,3 +2441,43 @@ html.dark {
         background: #fff !important;
     }
 }
+.exact-cash {
+    border: 0;
+    background: var(--brand-soft);
+    color: var(--brand);
+    border-radius: 3px;
+    padding: 3px 7px;
+    font-size: 10px;
+    margin-left: 5px;
+    min-height: 28px;
+}
+.checkout-feedback:not(:empty) {
+    background: var(--brand-soft);
+    border-left: 3px solid var(--yellow);
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    color: var(--body-color);
+}
+.saved-order-row {
+    --bs-table-bg: var(--brand-soft);
+}
+.saved-order-badge {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--brand);
+    margin-top: 5px;
+}
+.cart-footer {
+    margin: 0;
+}
+.history-items summary {
+    cursor: pointer;
+    color: var(--muted-color);
+    font-size: 12px;
+    white-space: nowrap;
+}
+.history-items li {
+    white-space: nowrap;
+    padding: 2px 0;
+}

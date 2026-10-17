@@ -72,7 +72,7 @@
             const sidebar = document.getElementById('appSidebar');
             const mobileNavigation = matchMedia('(max-width:991px)');
             function syncNavigation() { sidebar.inert = mobileNavigation.matches && !document.body.classList.contains('navigation-open'); }
-            mobileNavigation.addEventListener('change', () => { if (!mobileNavigation.matches) { document.body.classList.remove('navigation-open'); backdrop.hidden = true; menu.setAttribute('aria-expanded', 'false'); } syncNavigation(); });
+            (mobileNavigation.addEventListener ? callback => mobileNavigation.addEventListener('change', callback) : callback => mobileNavigation.addListener(callback))( () => { if (!mobileNavigation.matches) { document.body.classList.remove('navigation-open'); backdrop.hidden = true; menu.setAttribute('aria-expanded', 'false'); } syncNavigation(); });
             syncNavigation();
             function toggleNavigation(open) { document.body.classList.toggle('navigation-open', open); menu.setAttribute('aria-expanded', String(open)); backdrop.hidden = !open; syncNavigation(); if (!open) menu.focus(); else sidebar.querySelector('a').focus(); }
             menu.addEventListener('click', () => toggleNavigation(!document.body.classList.contains('navigation-open')));

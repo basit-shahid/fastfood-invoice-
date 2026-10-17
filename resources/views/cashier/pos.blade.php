@@ -68,14 +68,17 @@
             </div>
         </div>
 
-        <div class="cart-footer">
+        <form class="cart-footer" id="checkout-form" action="{{ route('orders.store') }}" method="POST">
+            @csrf
+            <div id="checkout-items" hidden></div>
+            @if($errors->any())<div class="alert alert-danger" role="alert">{{ $errors->first() }}</div>@endif
             <div class="summary-row">
                 <span>Subtotal</span>
                 <span id="subtotal">PKR 0.00</span>
             </div>
             <details class="discount-details"><summary>Apply a discount</summary><div class="summary-row align-items-center mt-2">
                 <label for="discount">Order discount (PKR)</label>
-                <input type="number" id="discount" class="form-control form-control-sm text-end border-0 bg-light rounded-pill px-3" style="width: 90px;" value="0" min="0" step="0.01" inputmode="decimal">
+                <input type="number" id="discount" name="discount" class="form-control form-control-sm text-end border-0 bg-light rounded-pill px-3" style="width: 90px;" value="0" min="0" step="0.01" inputmode="decimal">
             </div>
 
             </details>
@@ -87,15 +90,15 @@
             <div class="row g-2 mb-3">
                 <div class="col-6">
                     <label for="payment-method" class="small fw-800 text-muted mb-1">Payment method</label>
-                    <select id="payment-method" class="form-select border-0 bg-light rounded-pill px-3">
+                    <select id="payment-method" name="payment_method" class="form-select border-0 bg-light rounded-pill px-3">
                         <option value="cash">Cash</option>
                         <option value="card">Card</option>
                         <option value="online">Online</option>
                     </select>
                 </div>
                 <div class="col-6" id="cash-input-wrap">
-                    <label for="cash-received" class="small fw-800 text-muted mb-1">Cash received</label>
-                    <input type="number" id="cash-received" min="0" step="0.01" inputmode="decimal" class="form-control border-0 bg-light rounded-pill px-3" placeholder="0.00">
+                    <div class="d-flex align-items-center justify-content-between mb-1"><label for="cash-received" class="small fw-800 text-muted">Cash received</label><button type="button" id="exact-cash" class="exact-cash">Exact</button></div>
+                    <input type="number" id="cash-received" name="cash_received" required min="0" step="0.01" inputmode="decimal" class="form-control border-0 bg-light rounded-pill px-3" placeholder="0.00">
                 </div>
             </div>
 
@@ -106,11 +109,11 @@
                 </div>
             </div>
 
-            <button type="button" class="checkout-btn" id="process-order" disabled>
+            <div id="checkout-feedback" class="checkout-feedback" role="alert" aria-live="assertive" tabindex="-1"></div>
+            <button type="submit" class="checkout-btn" id="process-order" disabled>
                 <span>Place order</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
             </button>
-            <div id="checkout-feedback" class="checkout-feedback" role="status" aria-live="polite"></div>
-        </div>
+        </form>
     </section>
 </div>
 
@@ -138,5 +141,5 @@
 @push('scripts')
 <script>window.counterflowRegister = { storeUrl: @json(route('orders.store')), invoiceUrl: @json(url('/orders')), historyUrl: @json(route('orders.history')) };</script>
 <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
-<script src="{{ asset('assets/js/register.js') }}?v={{ filemtime(public_path('assets/js/register.js')) }}"></script>
+<script src="{{ asset('assets/js/register.js') }}?v={{ substr(hash_file('sha256', public_path('assets/js/register.js')), 0, 12) }}"></script>
 @endpush

@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\MenuItem;
 use App\Models\Order;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -105,6 +106,11 @@ class OrderController extends Controller
             $commitAttempted = true;
             DB::commit();
 
+            if (! $request->expectsJson()) {
+                return redirect()->route('orders.history', ['order' => $order->id])
+                    ->with('success', 'Order '.$order->invoice_number.' saved successfully.');
+            }
+
             return response()->json([
                 'success' => true,
                 'order' => $order->refresh(),
@@ -124,9 +130,18 @@ class OrderController extends Controller
                 throw $exception;
             }
             report($exception);
+            $state = $exception instanceof QueryException ? ($exception->errorInfo[0] ?? null) : null;
+            $reference = is_string($state) && preg_match('/^[A-Z0-9]{5}$/', $state) ? $state : null;
+
+            if (! $request->expectsJson()) {
+                return redirect()->route('orders.history')->with('error', ! $commitAttempted && ($rolledBack || ! $transactionStarted)
+                    ? 'The order was not saved. Please return to the register and try again.'
+                    : 'The result could not be confirmed. Check the orders below before trying again.');
+            }
 
             return response()->json([
                 'success' => false,
+                'error_code' => $reference,
                 // A failed commit/connection has an unknown outcome; never invite a blind retry.
                 'order_saved' => ! $commitAttempted && ($rolledBack || ! $transactionStarted) ? false : null,
                 'message' => ! $commitAttempted && ($rolledBack || ! $transactionStarted)

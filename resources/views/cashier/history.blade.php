@@ -172,7 +172,7 @@
                                     <th>Cashier</th>
                                 @endif
                                 <th>Timestamp</th>
-                                <th>Inventory</th>
+                                <th>Items</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                                 <th class="text-end">Actions</th>
@@ -191,10 +191,11 @@
                                     @php $currentDate = $orderDate; @endphp
                                 @endif
                                 
-                                <tr>
+                                <tr @if(request()->integer('order') === (int) $order->id) class="saved-order-row" @endif>
                                     <td>
                                         <a href="{{ route('orders.invoice', $order) }}" class="invoice-link">
                                             #{{ $order->invoice_number }}
+                                            @if(request()->integer('order') === (int) $order->id)<span class="saved-order-badge">Just saved</span>@endif
                                         </a>
                                     </td>
                                     @if($isManagerOrOwner)
@@ -208,9 +209,7 @@
                                         <div class="small text-muted">{{ $order->created_at->format('d M y') }}</div>
                                     </td>
                                     <td>
-                                        <span class="badge bg-light text-dark rounded-pill px-3 py-2 border">
-                                            {{ $order->items->sum('quantity') }} items
-                                        </span>
+                                        <details class="history-items"><summary>{{ $order->items->sum('quantity') }} items</summary><ul class="list-unstyled small mt-2 mb-0">@foreach($order->items as $line)<li>{{ $line->quantity }} × {{ $line->menuItem->name ?? 'Removed item' }}</li>@endforeach</ul></details>
                                     </td>
                                     <td class="fw-900">PKR {{ number_format($order->total, 2) }}</td>
                                     <td>

@@ -162,10 +162,10 @@
                             @endif
                             @if(isset($menuItem) && $menuItem->image)
                                 <div class="mt-3">
-                                    <div class="badge bg-info text-dark">Current image exists</div>
+                                    <img src="{{ $menuItem->image_url }}" alt="Current photo of {{ $menuItem->name }}" style="max-width:180px;max-height:120px;object-fit:cover;border-radius:5px;">
                                 </div>
                             @endif
-                            <p class="text-muted small mt-2 fw-500">Upload a crisp image of the product</p>
+                            <p class="text-muted small mt-2 fw-500">JPG, PNG, or GIF · up to 2 MB. Uploaded photos are retained across deployments.</p>
                         </div>
                     </div>
 

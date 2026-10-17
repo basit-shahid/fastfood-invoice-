@@ -35,7 +35,7 @@
                      data-category="{{ Str::slug($item->category) }}" data-category-name="{{ $item->category }}">
                     <div class="item-img-wrapper">
                         @if($item->image)
-                            <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}">
+                            <img src="{{ $item->image_url }}" alt="{{ $item->name }}">
                         @else
                             <i class="fas fa-utensils fa-3x text-muted opacity-25"></i>
                         @endif

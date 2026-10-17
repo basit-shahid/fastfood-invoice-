@@ -1,10 +1,14 @@
 <?php
+
 // app/Http/Controllers/MenuController.php
 
 namespace App\Http\Controllers;
 
 use App\Models\MenuItem;
+use App\Models\MenuItemImage;
+use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
@@ -19,13 +23,14 @@ class MenuController extends Controller
 
         $categories = $menuItems->pluck('category')->unique()->values();
         $menuCount = $menuItems->count();
-        
+
         return view('menu.index', compact('menuItems', 'categories', 'menuCount'));
     }
 
     public function create()
     {
-        $stocks = \App\Models\Stock::orderBy('item_name')->get();
+        $stocks = Stock::orderBy('item_name')->get();
+
         return view('menu.form', compact('stocks'));
     }
 
@@ -46,19 +51,21 @@ class MenuController extends Controller
             return back()->withErrors(['image' => 'Guest profiles are not permitted to upload image files due to security policies.'])->withInput();
         }
 
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('menu-items', 'public');
-            $validated['image'] = $path;
-        }
-
-        MenuItem::create($validated);
+        unset($validated['image']);
+        DB::transaction(function () use ($validated, $request) {
+            $item = MenuItem::create($validated);
+            if ($request->hasFile('image')) {
+                MenuItemImage::storeFor($item, $request->file('image'));
+            }
+        });
 
         return redirect()->route('menu.index')->with('success', 'Menu item added successfully!');
     }
 
     public function edit(MenuItem $menuItem)
     {
-        $stocks = \App\Models\Stock::orderBy('item_name')->get();
+        $stocks = Stock::orderBy('item_name')->get();
+
         return view('menu.form', compact('menuItem', 'stocks'));
     }
 
@@ -79,25 +86,27 @@ class MenuController extends Controller
             return back()->withErrors(['image' => 'Guest profiles are not permitted to upload image files due to security policies.'])->withInput();
         }
 
-        if ($request->hasFile('image')) {
-            if ($menuItem->image) {
-                Storage::disk('public')->delete($menuItem->image);
+        $previousImage = $menuItem->image;
+        unset($validated['image']);
+        DB::transaction(function () use ($menuItem, $validated, $request) {
+            $menuItem->update($validated);
+            if ($request->hasFile('image')) {
+                MenuItemImage::storeFor($menuItem, $request->file('image'));
             }
-            $path = $request->file('image')->store('menu-items', 'public');
-            $validated['image'] = $path;
+        });
+        if ($request->hasFile('image') && $previousImage && ! str_starts_with($previousImage, 'db:')) {
+            Storage::disk('public')->delete($previousImage);
         }
-
-        $menuItem->update($validated);
 
         return redirect()->route('menu.index')->with('success', 'Menu item updated successfully!');
     }
 
     public function destroy(MenuItem $menuItem)
     {
-        if ($menuItem->image) {
+        if ($menuItem->image && ! str_starts_with($menuItem->image, 'db:')) {
             Storage::disk('public')->delete($menuItem->image);
         }
-        
+
         $menuItem->delete();
 
         return redirect()->route('menu.index')->with('success', 'Menu item deleted successfully!');
@@ -105,8 +114,8 @@ class MenuController extends Controller
 
     public function toggleAvailability(MenuItem $menuItem)
     {
-        $menuItem->update(['is_available' => !$menuItem->is_available]);
-        
+        $menuItem->update(['is_available' => ! $menuItem->is_available]);
+
         return response()->json(['success' => true, 'is_available' => $menuItem->is_available]);
     }
 }

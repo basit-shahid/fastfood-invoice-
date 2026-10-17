@@ -233,7 +233,7 @@
                         @endif
                     </div>
                     @if($item->image)
-                        <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}" loading="lazy">
+                        <img src="{{ $item->image_url }}" alt="{{ $item->name }}" loading="lazy">
                     @else
                         <i class="fas fa-utensils fa-3x text-muted opacity-25"></i>
                     @endif

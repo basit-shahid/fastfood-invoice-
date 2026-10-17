@@ -11,7 +11,7 @@ RUN docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 RUN a2enmod rewrite
 
 # Change Apache document root to Laravel's public directory
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
@@ -30,4 +30,10 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev
 # Set permissions for Laravel storage and cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Initialize the schema and legacy image link automatically on every Render boot.
+COPY docker/start.sh /usr/local/bin/start-pos
+RUN chmod +x /usr/local/bin/start-pos
+
 EXPOSE 80
+ENTRYPOINT ["start-pos"]
+CMD ["apache2-foreground"]

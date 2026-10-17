@@ -1,4 +1,5 @@
 <?php
+
 // app/Models/MenuItem.php
 
 namespace App\Models;
@@ -36,8 +37,21 @@ class MenuItem extends Model
         return $this->belongsTo(Stock::class, 'stock_id');
     }
 
+    public function getImageUrlAttribute(): ?string
+    {
+        if (! $this->image) {
+            return null;
+        }
+        if (str_starts_with($this->image, 'db:')) {
+            return route('menu.image', ['menuItem' => $this->id, 'checksum' => substr($this->image, 3)]);
+        }
+
+        // Legacy files are served on the current host, regardless of a stale APP_URL.
+        return url('/storage/'.ltrim($this->image, '/'));
+    }
+
     public function getFormattedPriceAttribute()
     {
-        return 'PKR ' . number_format($this->price, 2);
+        return 'PKR '.number_format($this->price, 2);
     }
 }

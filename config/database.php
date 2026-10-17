@@ -97,6 +97,12 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
+            // Use unnamed bound queries with Neon/PgBouncer. PHP 8.2's SQL
+            // DEALLOCATE cleanup for named statements can abort pooled transactions
+            // after statement names have been rewritten (SQLSTATE 25P02).
+            'options' => extension_loaded('pdo_pgsql') ? [
+                PDO::PGSQL_ATTR_DISABLE_PREPARES => true,
+            ] : [],
         ],
 
         'sqlsrv' => [

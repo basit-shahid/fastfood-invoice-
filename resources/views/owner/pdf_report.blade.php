@@ -12,7 +12,7 @@
         }
         .header {
             text-align: center;
-            border-bottom: 2px solid #087f6d;
+            border-bottom: 2px solid #9a6b00;
             padding-bottom: 20px;
             margin-bottom: 30px;
         }

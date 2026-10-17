@@ -12,8 +12,8 @@
 
     <style>
         :root {
-            --primary-yellow: #087f6d;
-            --dark-yellow: #066655;
+            --primary-yellow: #9a6b00;
+            --dark-yellow: #9a6b00;
             --black: #000000;
         }
 
@@ -124,7 +124,7 @@
         .otp-input:focus {
             border-color: var(--primary-yellow);
             background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(8,127,109,0.25); /* More prominent focus ring */
+            box-shadow: 0 0 0 4px rgba(239,187,40,0.25); /* More prominent focus ring */
             outline: none;
             transform: translateY(-2px); /* Slight lift on focus */
         }
@@ -142,12 +142,12 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 10px;
-            box-shadow: 0 6px 12px rgba(8,127,109,0.2);
+            box-shadow: 0 6px 12px rgba(239,187,40,0.2);
         }
 
         .btn-verify:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 18px rgba(8,127,109,0.3);
+            box-shadow: 0 10px 18px rgba(239,187,40,0.3);
         }
 
         .btn-resend {

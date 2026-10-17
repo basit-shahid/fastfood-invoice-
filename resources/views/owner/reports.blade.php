@@ -76,7 +76,7 @@
     }
 
     .report-period-btn {
-        background:  #087f6d;
+        background:  #9a6b00;
         
         border: 1px solid #ffffff;
     }
@@ -88,9 +88,9 @@
     }
 
     html.dark .report-period-btn {
-        background: #087f6d;
+        background: #9a6b00;
         color: #0f172a;
-        border-color: #087f6d;
+        border-color: #9a6b00;
         box-shadow: 0 6px 16px rgba(255,255,255,0.08);
     }
 

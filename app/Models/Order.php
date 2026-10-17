@@ -1,4 +1,5 @@
 <?php
+
 // app/Models/Order.php
 
 namespace App\Models;
@@ -41,7 +42,7 @@ class Order extends Model
         parent::boot();
 
         static::creating(function ($order) {
-            if (!$order->invoice_number) {
+            if (! $order->invoice_number) {
                 $order->invoice_number = self::generateInvoiceNumber();
             }
         });
@@ -49,17 +50,9 @@ class Order extends Model
 
     public static function generateInvoiceNumber()
     {
-        $prefix = 'INV-' . date('Ymd') . '-';
-        $lastOrder = self::whereDate('created_at', today())->orderBy('id', 'desc')->first();
-        
-        if ($lastOrder) {
-            $lastNumber = intval(substr($lastOrder->invoice_number, -4));
-            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
-        } else {
-            $newNumber = '0001';
-        }
-        
-        return $prefix . $newNumber;
+        // Receipt identity must not depend on another checkout's uncommitted row.
+        // Repeated products and identical orders are valid; only the receipt ID is unique.
+        return 'INV-'.now()->format('Ymd').'-'.strtoupper((string) Str::ulid());
     }
 
     public function user()
@@ -74,7 +67,7 @@ class Order extends Model
 
     public function calculateTotal()
     {
-        $this->subtotal = $this->items->sum('subtotal');
+        $this->subtotal = $this->items()->sum('subtotal');
         $this->total = $this->subtotal + $this->tax - $this->discount;
         $this->save();
     }
@@ -84,7 +77,7 @@ class Order extends Model
         $this->status = 'completed';
         $this->completed_at = now();
         $this->save();
-        
+
         // Update daily report
         $this->updateDailyReport();
     }
@@ -99,29 +92,29 @@ class Order extends Model
                 'average_order_value' => 0,
             ]
         );
-        
+
         $dailyReport->total_orders += 1;
         $dailyReport->total_revenue += $this->total;
         $dailyReport->average_order_value = $dailyReport->total_revenue / $dailyReport->total_orders;
-        
+
         // Update top items
-        $topItems = OrderItem::whereHas('order', function($query) {
+        $topItems = OrderItem::whereHas('order', function ($query) {
             $query->whereDate('created_at', today());
         })->select('menu_item_id', \DB::raw('SUM(quantity) as total_quantity'))
-          ->groupBy('menu_item_id')
-          ->orderBy('total_quantity', 'desc')
-          ->limit(5)
-          ->with('menuItem')
-          ->get();
-        
-        $dailyReport->top_items = $topItems->map(function($item) {
+            ->groupBy('menu_item_id')
+            ->orderBy('total_quantity', 'desc')
+            ->limit(5)
+            ->with('menuItem')
+            ->get();
+
+        $dailyReport->top_items = $topItems->map(function ($item) {
             return [
                 'name' => $item->menuItem->name,
                 'quantity' => $item->total_quantity,
-                'revenue' => $item->subtotal
+                'revenue' => $item->subtotal,
             ];
         });
-        
+
         $dailyReport->save();
     }
 }

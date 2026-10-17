@@ -40,7 +40,7 @@
     .form-control:focus, .form-select:focus {
         border-color: var(--accent-color);
         background: white;
-        box-shadow: 0 0 0 4px rgba(8,127,109,0.1);
+        box-shadow: 0 0 0 4px rgba(239,187,40,0.1);
         outline: none;
     }
 

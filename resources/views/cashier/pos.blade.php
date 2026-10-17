@@ -9,7 +9,7 @@
     <div class="menu-panel">
         <div class="menu-header">
             <div class="top-controls">
-                <div><div class="pos-kicker">REGISTER</div><h2>Let’s take an order</h2><p class="pos-description">Choose an item, review the order, and take payment.</p></div>
+                <div><div class="pos-kicker">01 / THE MENU</div><h2>What’s cooking?</h2></div>
                 <div class="search-input-group">
                     <i class="fas fa-search"></i>
                     <input type="search" id="menu-search" class="clean-input" aria-label="Search menu by name or category" placeholder="Search menu…  /">
@@ -41,7 +41,7 @@
                         @endif
                     </div>
                     <div class="item-info">
-                        <div class="item-category">{{ $item->category ?: 'Other' }}</div><h6>{{ $item->name }}</h6>
+                        <div class="item-category visually-hidden">{{ $item->category ?: 'Other' }}</div><h6>{{ $item->name }}</h6>
                         <div class="item-price">PKR {{ number_format($item->price, 0) }}</div><span class="item-add" aria-hidden="true"><i class="fas fa-plus"></i></span>
                     </div>
                 </button>
@@ -54,7 +54,7 @@
     <button type="button" class="cart-backdrop" id="cart-backdrop" aria-label="Close order" hidden></button>
     <section class="cart-panel" id="cart-sidebar" aria-label="Current order">
         <div class="cart-top d-flex justify-content-between align-items-center">
-            <div><h4>Current order</h4><small id="order-item-count" aria-live="polite">No items added</small></div><button type="button" class="btn btn-link text-muted p-0" id="clear-order" aria-label="Clear current order" title="Clear order"><i class="fas fa-trash-alt"></i></button>
+            <div><div class="pos-kicker">02 / THE ORDER</div><h4>On the ticket</h4><small id="order-item-count" aria-live="polite">No items added</small></div><button type="button" class="btn btn-link text-muted p-0" id="clear-order" aria-label="Clear current order" title="Clear order"><i class="fas fa-trash-alt"></i></button>
             <button class="btn btn-link text-muted p-0 cart-close" id="close-cart" aria-label="Close order">
                 <i class="fas fa-times fs-4"></i>
             </button>
@@ -62,9 +62,9 @@
 
         <div class="cart-body" id="cart-content">
             <div class="empty-state">
-                <div class="empty-state-icon"><i class="fas fa-receipt" aria-hidden="true"></i></div>
-                <h5>Start a new order</h5>
-                <p class="small">Select products from the menu.<br>Your order will appear here.</p>
+                <div class="ticket-mark" aria-hidden="true">＋</div>
+                <h5>Nothing on the ticket.</h5>
+                <p class="small">Tap something good to start.</p>
             </div>
         </div>
 
@@ -73,11 +73,12 @@
                 <span>Subtotal</span>
                 <span id="subtotal">PKR 0.00</span>
             </div>
-            <div class="summary-row align-items-center">
+            <details class="discount-details"><summary>Apply a discount</summary><div class="summary-row align-items-center mt-2">
                 <label for="discount">Order discount (PKR)</label>
                 <input type="number" id="discount" class="form-control form-control-sm text-end border-0 bg-light rounded-pill px-3" style="width: 90px;" value="0" min="0" step="0.01" inputmode="decimal">
             </div>
 
+            </details>
             <div class="total-display">
                 <span class="fw-bold text-muted">Total due</span>
                 <span class="total-val text-warning" id="total">PKR 0.00</span>
@@ -106,9 +107,9 @@
             </div>
 
             <button type="button" class="checkout-btn" id="process-order" disabled>
-                <span>Complete order</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
+                <span>Place order</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
             </button>
-            <p class="payment-hint">Review payment before completing the order.</p><div id="checkout-feedback" class="checkout-feedback" role="status" aria-live="polite"></div>
+            <div id="checkout-feedback" class="checkout-feedback" role="status" aria-live="polite"></div>
         </div>
     </section>
 </div>

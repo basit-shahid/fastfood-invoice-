@@ -43,7 +43,7 @@
             font-size: 24px;
             font-weight: 900;
             letter-spacing: -1px;
-            color: #066655;
+            color: #9a6b00;
             text-transform: uppercase;
         }
 
@@ -65,6 +65,8 @@
         }
 
         .meta-info p {
+            overflow-wrap: anywhere;
+            max-width: 320px;
             margin: 2px 0;
             font-weight: 700;
             color: #444;

@@ -109,7 +109,7 @@
     }
 
     .add-staff-btn {
-        background: #087f6d;
+        background: #9a6b00;
         color: #0f172a;
         padding: 12px 25px;
         border-radius: 15px;
@@ -122,7 +122,7 @@
     }
 
     .add-staff-btn:hover {
-        background: #087f6d;
+        background: #9a6b00;
         transform: translateY(-2px);
         color: black;
         box-shadow: 0 10px 20px rgba(0,0,0,0.1);

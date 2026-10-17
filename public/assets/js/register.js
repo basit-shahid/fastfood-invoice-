@@ -111,7 +111,7 @@
             !cart.length || submitting || checkoutUncertain;
         if (!cart.length)
             $("cart-content").innerHTML =
-                '<div class="empty-state"><div class="empty-state-icon"><i class="fas fa-receipt" aria-hidden="true"></i></div><h5>Start a new order</h5><p>Select products from the menu.<br>Your order will appear here.</p></div>';
+                '<div class="empty-state"><div class="ticket-mark" aria-hidden="true">＋</div><h5>Nothing on the ticket.</h5><p>Tap something good to start.</p></div>';
         else
             $("cart-content").innerHTML = cart
                 .map(
@@ -162,7 +162,7 @@
             icon: "question",
             showCancelButton: true,
             confirmButtonText: "Clear order",
-            confirmButtonColor: "#087f6d",
+            confirmButtonColor: "#24231f",
             cancelButtonText: "Keep order",
         });
         if (result.isConfirmed) resetOrder();
@@ -253,6 +253,7 @@
             discount < 0 ||
             discount > subtotal
         ) {
+            document.querySelector(".discount-details").open = true;
             $("discount").reportValidity();
             return;
         }
@@ -261,31 +262,16 @@
             (!$("cash-received").checkValidity() ||
                 number("cash-received") < total)
         ) {
-            await Swal.fire({
-                title: "Check the cash received",
-                text: "Enter an amount that covers the total due.",
-                icon: "info",
-                confirmButtonColor: "#087f6d",
-            });
+            $("checkout-feedback").textContent =
+                "Cash received must cover the total due.";
             $("cash-received").focus();
             return;
         }
-        const confirmation = await Swal.fire({
-            title: "Complete this order?",
-            text:
-                currency(total) +
-                " · " +
-                $("payment-method").selectedOptions[0].text +
-                ". Confirm payment has been received.",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Confirm payment",
-            confirmButtonColor: "#087f6d",
-        });
-        if (!confirmation.isConfirmed) return;
         submitting = true;
         $("process-order").innerHTML =
-            '<span>Processing order…</span><i class="fas fa-spinner fa-spin" aria-hidden="true"></i>';
+            '<span>Saving order…</span><i class="fas fa-spinner fa-spin" aria-hidden="true"></i>';
+        $("checkout-feedback").textContent = "";
+        $("clear-order").disabled = true;
         renderTotals();
         const fields = [$("discount"), $("cash-received"), $("payment-method")];
         fields.forEach((field) => (field.disabled = true));
@@ -316,71 +302,42 @@
                 result = await response.json();
             } catch (_) {
                 checkoutUncertain = true;
-                throw new Error(
-                    "The order status could not be confirmed. Check order history before trying again.",
-                );
+                throw new Error("The order status could not be confirmed.");
             }
             if (!response.ok || !result.success || !result.order?.id) {
-                if (response.status >= 500 || response.ok)
-                    checkoutUncertain = true;
+                checkoutUncertain =
+                    (response.status >= 500 || response.ok) &&
+                    result.order_saved !== false;
                 const message =
                     response.status === 422
                         ? Object.values(result.errors || {}).flat()[0]
                         : response.status === 419
                           ? "Your session expired. Sign in again before placing this order."
-                          : response.status >= 500
-                            ? "The order status could not be confirmed. Check order history before trying again."
-                            : "The order could not be completed. Please check your session and try again.";
+                          : result.order_saved === false
+                            ? "The order was not saved. Your items are still here; please try again."
+                            : "The order could not be completed. Please check your session.";
                 throw new Error(message || "Please check the order details.");
             }
             resetOrder();
-            $("checkout-feedback").textContent =
-                "Order completed. You can start the next order.";
-            await Swal.fire({
-                title: "Order completed",
-                text:
-                    "Payment recorded: " + currency(Number(result.order.total)),
-                icon: "success",
-                confirmButtonText: "View receipt",
-                showCancelButton: true,
-                cancelButtonText: "Next order",
-                confirmButtonColor: "#087f6d",
-            }).then((answer) => {
-                if (answer.isConfirmed)
-                    window.open(
-                        config.invoiceUrl +
-                            "/" +
-                            result.order.id +
-                            "/invoice?view=1",
-                        "_blank",
-                        "noopener",
-                    );
-            });
+            document.querySelector(".discount-details").open = false;
+            $("checkout-feedback").innerHTML =
+                `Saved · ${escape(currency(Number(result.order.total)))}. <a href="${escape(config.invoiceUrl)}/${encodeURIComponent(result.order.id)}/invoice?view=1" target="_blank" rel="noopener">View receipt ↗</a>`;
         } catch (error) {
             if (!(error instanceof Error) || error.name === "TypeError")
                 checkoutUncertain = true;
-            await Swal.fire({
-                title: checkoutUncertain
-                    ? "Check order history"
-                    : "Order not completed",
-                text: checkoutUncertain
-                    ? "We could not confirm the result. Check order history before placing this order again to avoid a duplicate."
-                    : error.message,
-                icon: "warning",
-                confirmButtonColor: "#087f6d",
-                confirmButtonText: checkoutUncertain
-                    ? "Open order history"
-                    : "Review order",
-            }).then((answer) => {
-                if (checkoutUncertain && answer.isConfirmed)
-                    window.location.href = config.historyUrl;
-            });
+            if (checkoutUncertain) {
+                $("checkout-feedback").innerHTML =
+                    `Could not confirm the result. <a href="${escape(config.historyUrl)}">Check order history</a> before placing it again.`;
+            } else {
+                $("checkout-feedback").textContent = error.message;
+            }
         } finally {
             submitting = false;
             fields.forEach((field) => (field.disabled = false));
             $("process-order").innerHTML =
-                '<span>Complete order</span><i class="fas fa-arrow-right" aria-hidden="true"></i>';
+                '<span>Place order</span><i class="fas fa-arrow-right" aria-hidden="true"></i>';
             renderTotals();
+            $("clear-order").disabled = !cart.length || checkoutUncertain;
         }
     });
     filterMenu();

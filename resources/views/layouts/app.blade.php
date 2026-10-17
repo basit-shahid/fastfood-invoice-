@@ -28,14 +28,13 @@
     @endphp
     <aside class="app-sidebar" id="appSidebar" aria-label="Main navigation">
         <a href="{{ route($dashboard) }}" class="product-brand"><img src="{{ asset('images/counterflow.svg') }}" alt="" width="36" height="36"><span>CounterFlow<small>FAST FOOD POS</small></span></a>
-        <div class="workspace-label">WORKSPACE</div>
+        <div class="workspace-label">THE COUNTER</div>
         <nav class="sidebar-nav">
             @foreach($navigation as [$route, $icon, $label, $pattern])
                 <a class="sidebar-link {{ request()->routeIs($pattern) ? 'active' : '' }}" href="{{ route($route) }}" @if(request()->routeIs($pattern)) aria-current="page" @endif><i class="fas {{ $icon }}" aria-hidden="true"></i><span>{{ $label }}</span>@if($route === 'orders.create')<kbd>F2</kbd>@endif</a>
             @endforeach
         </nav>
         <div class="sidebar-bottom">
-            <div class="workspace-note"><i class="fas fa-layer-group" aria-hidden="true"></i><span>One counter. Every order.<small>Your daily operations, connected.</small></span></div>
             @auth
                 <div class="sidebar-user"><span class="user-avatar">{{ mb_substr(auth()->user()->name, 0, 1) }}</span><span class="user-details">{{ auth()->user()->name }}<small>{{ ucfirst($role) }} workspace</small></span></div>
                 <form method="POST" action="{{ route('logout') }}">@csrf<button class="signout-btn" type="submit"><i class="fas fa-arrow-right-from-bracket" aria-hidden="true"></i> Sign out</button></form>
@@ -45,8 +44,8 @@
     <button class="sidebar-backdrop" id="sidebarBackdrop" aria-label="Close navigation" hidden></button>
     <div class="app-workspace">
         <header class="workspace-header">
-            <div class="d-flex align-items-center gap-3"><button class="icon-button mobile-menu-button" id="menuToggle" aria-label="Open navigation" aria-controls="appSidebar" aria-expanded="false"><i class="fas fa-bars"></i></button><div><div class="header-eyebrow">CounterFlow / Workspace</div><div class="header-title">@yield('title', 'Overview')</div></div></div>
-            <div class="header-actions"><span class="workspace-date">{{ now()->format('D, d M Y') }}</span><button class="icon-button" id="themeToggle" aria-label="Switch to dark theme" title="Change appearance"><i id="themeIcon" class="fas fa-moon"></i></button><span class="role-chip">{{ ucfirst($role ?? 'Workspace') }}</span></div>
+            <div class="d-flex align-items-center gap-3"><button class="icon-button mobile-menu-button" id="menuToggle" aria-label="Open navigation" aria-controls="appSidebar" aria-expanded="false"><i class="fas fa-bars"></i></button><div><div class="header-title">@yield('title', 'Overview')</div></div></div>
+            <div class="header-actions"><span class="workspace-date">{{ now()->format('D, d M Y') }}</span><button class="icon-button" id="themeToggle" aria-label="Switch to dark theme" title="Change appearance"><i id="themeIcon" class="fas fa-moon"></i></button></div>
         </header>
         <main id="main-content" tabindex="-1">
             @if(session('success') || session('error'))
@@ -54,7 +53,7 @@
             @endif
             @yield('content')
         </main>
-        <footer class="workspace-footer"><span>CounterFlow POS</span><span>Built for the pace of service · {{ date('Y') }}</span></footer>
+
     </div>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script>

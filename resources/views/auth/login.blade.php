@@ -13,15 +13,13 @@
 <body class="login-page">
     <section class="login-story" aria-label="About CounterFlow">
         <a class="product-brand" href="{{ route('login') }}"><img src="{{ asset('images/counterflow.svg') }}" alt="" width="40" height="40"><span>CounterFlow<small>FAST FOOD POS</small></span></a>
-        <div class="login-story-content"><span class="story-label"><span class="status-dot"></span> BUILT FOR THE PACE OF SERVICE</span><h1>Great service.<br>Starts at<br>the counter<span>.</span></h1><p>From the first order to the last receipt, bring your team, menu, and sales into one clear workspace.</p>
-            <div class="story-order" aria-hidden="true"><div class="story-order-heading"><span><i class="fas fa-receipt"></i> A smoother service</span><span class="story-pill">All in one place</span></div><div class="story-feature"><span class="story-feature-icon"><i class="fas fa-cash-register"></i></span><span>Take orders with confidence<small>Clear menus. Simple checkout.</small></span><i class="fas fa-check"></i></div><div class="story-feature"><span class="story-feature-icon"><i class="fas fa-chart-line"></i></span><span>Know how your day is going<small>Sales, reports, and team activity.</small></span><i class="fas fa-check"></i></div></div>
-        </div>
+        <div class="login-story-content"><span class="story-label">ORDER. SERVE. REPEAT.</span><h1>Good food.<br>Great flow.</h1><p>A little less admin.<br>A lot more service.</p><div class="brand-ticket" aria-hidden="true"><span>COUNTERFLOW / DAILY SERVICE</span><div class="ticket-line"></div><strong>Made for<br>the rush.</strong><div class="ticket-line"></div><span>YOUR COUNTER. YOUR PACE. &nbsp; ↗</span></div></div>
         <div class="login-story-footer">A focused workspace for fast food teams.</div>
     </section>
     <main class="login-form-panel">
         <div class="login-form-wrap">
             <a class="product-brand mobile-login-brand" href="{{ route('login') }}"><img src="{{ asset('images/counterflow.svg') }}" width="36" height="36" alt=""><span>CounterFlow<small>FAST FOOD POS</small></span></a>
-            <span class="eyebrow">YOUR WORKSPACE AWAITS</span><h2>Welcome back</h2><p class="login-intro">Sign in to keep service moving.</p>
+            <span class="eyebrow">LET’S GET TO WORK</span><h2>Welcome back</h2><p class="login-intro">Your counter is ready when you are.</p>
             @if($errors->any())<div class="alert alert-danger" role="alert">{{ $errors->first() }}</div>@endif
             <form method="POST" action="{{ route('login') }}">
                 @csrf
@@ -32,8 +30,8 @@
             </form>
             <div class="login-divider"><span>Explore the workspace</span></div>
             <form method="POST" action="{{ route('login.guest') }}">@csrf<button type="submit" class="btn btn-outline-secondary w-100"><i class="far fa-compass me-2" aria-hidden="true"></i> Continue as guest</button></form>
-            <p class="guest-note">Guest access lets you explore dashboards and place orders. Team administration is restricted.</p>
-            <div class="login-help"><i class="fas fa-shield-alt" aria-hidden="true"></i> Use your assigned account for daily operations.</div>
+            <p class="guest-note">Look around and try an order. Team settings stay restricted.</p>
+
         </div>
         <footer>CounterFlow POS <span>·</span> {{ date('Y') }}</footer>
     </main>

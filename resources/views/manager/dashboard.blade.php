@@ -5,11 +5,11 @@
 @push('styles')
 <style>
     .welcome-card {
-        background: linear-gradient(135deg, #087f6d 0%, #bde4d5 100%);
+        background: linear-gradient(135deg, #9a6b00 0%, #bde4d5 100%);
         border-radius: 30px;
         padding: 40px;
         border: none;
-        box-shadow: 0 20px 40px rgba(8, 127, 109, 0.2);
+        box-shadow: 0 20px 40px rgba(239, 187, 40, 0.2);
         position: relative;
         overflow: hidden;
         margin-bottom: 40px;
@@ -46,7 +46,7 @@
         position: absolute;
         left: 0; top: 0; bottom: 0;
         width: 4px;
-        background: linear-gradient(180deg, #087f6d, #63baa0);
+        background: linear-gradient(180deg, #9a6b00, #efbb28);
         border-radius: 4px 0 0 4px;
         transform: scaleY(0);
         transform-origin: bottom;
@@ -97,7 +97,7 @@
 
     .quick-link:hover {
         gap: 12px;
-        color: #087f6d;
+        color: #9a6b00;
     }
 
     .time-badge {
@@ -166,39 +166,13 @@
 @section('content')
 <div class="container py-5 manager-page">
     <!-- Welcome Header -->
-    <div class="welcome-card animate__animated animate__fadeIn">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <div class="time-badge mb-3">
-                    <i class="far fa-clock"></i>
-                    <span id="pakt-time">{{ now()->timezone('Asia/Karachi')->format('h:i A') }}</span>
-                    <span class="text-surface small ms-2">Pakistan Time</span>
-                </div>
-                <div class="d-flex align-items-center gap-3 flex-wrap">
-                    <h1 class="display-4 fw-900 mb-0">Service overview</h1>
-                </div>
-                <p class="lead opacity-75 mt-3 mb-0">Track today's service health, sales flow, and menu readiness from one place.</p>
-                <div class="mt-4">
-                    <a href="{{ route('orders.create') }}" class="btn btn-dark rounded-pill px-4 py-2 me-2 mb-2 mb-lg-0 fw-bold border-2">
-                        <i class="fas fa-cash-register me-1" style="color:#087f6d;"></i> New Order
-                    </a>
-                    <a href="{{ route('orders.history') }}" class="btn btn-dark rounded-pill px-4 py-2 mb-2 mb-lg-0 fw-bold border-2">
-                        View Timeline
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-4 text-end d-none d-md-block">
-                <a href="{{ route('orders.create') }}" class="btn btn-primary"><i class="fas fa-plus me-2"></i> New order</a>
-            </div>
-        </div>
-    </div>
-
+    <div class="overview-heading"><div><div class="pos-kicker">SERVICE AT A GLANCE</div><h1>Keep things moving.</h1><p class="text-muted">Today’s orders, sales, and menu.</p></div><a href="{{ route('orders.create') }}" class="btn btn-primary"><i class="fas fa-plus me-2"></i> Take an order</a></div>
     <!-- Stats -->
     <div class="row g-4 mb-5 reveal-group">
         <div class="col-md-3 reveal">
             <div class="stat-card">
                 <div>
-                    <div class="stat-icon" style="background: rgba(8, 127, 109, 0.1); color: #087f6d;">
+                    <div class="stat-icon" style="background: rgba(239, 187, 40, 0.1); color: #9a6b00;">
                         <i class="fas fa-wallet"></i>
                     </div>
                     <div class="stat-label">Today's Revenue</div>
@@ -211,7 +185,7 @@
         <div class="col-md-3 reveal">
             <div class="stat-card">
                 <div>
-                    <div class="stat-icon" style="background: rgba(8, 127, 109, 0.1); color: #087f6d;">
+                    <div class="stat-icon" style="background: rgba(239, 187, 40, 0.1); color: #9a6b00;">
                         <i class="fas fa-receipt"></i>
                     </div>
                     <div class="stat-label">Orders Today</div>
@@ -227,7 +201,7 @@
         <div class="col-md-3 reveal">
             <div class="stat-card">
                 <div>
-                    <div class="stat-icon" style="background: rgba(8, 127, 109, 0.1); color: #087f6d;">
+                    <div class="stat-icon" style="background: rgba(239, 187, 40, 0.1); color: #9a6b00;">
                         <i class="fas fa-utensils"></i>
                     </div>
                     <div class="stat-label">Menu Coverage</div>
@@ -243,7 +217,7 @@
         <div class="col-md-3 reveal">
             <div class="stat-card">
                 <div>
-                    <div class="stat-icon" style="background: rgba(8, 127, 109, 0.1); color: #087f6d;">
+                    <div class="stat-icon" style="background: rgba(239, 187, 40, 0.1); color: #9a6b00;">
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-label">Operational Staff</div>
@@ -262,7 +236,7 @@
         <div class="col-lg-8 reveal">
             <div class="card border-0 shadow-sm rounded-4 p-4 h-100 info-card" style="background: var(--card-bg); border: 1px solid var(--card-border);">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h5 class="fw-900 mb-0"><i class="fas fa-clock me-2" style="color:#087f6d;"></i>Recent Orders</h5>
+                    <h5 class="fw-900 mb-0"><i class="fas fa-clock me-2" style="color:#9a6b00;"></i>Recent Orders</h5>
                     <a href="{{ route('orders.history') }}" class="btn btn-sm btn-outline-dark rounded-pill border-2 fw-bold recent-orders-all-btn">All Orders</a>
                 </div>
 
@@ -292,7 +266,7 @@
                                 <tr class="staff-row border-bottom">
                                     <td class="fw-bold text-dark">{{ $order->invoice_number }}</td>
                                     <td>{{ $order->user->name ?? 'N/A' }}</td>
-                                    <td class="fw-bold" style="color:#087f6d;">PKR {{ number_format($order->total, 0) }}</td>
+                                    <td class="fw-bold" style="color:#9a6b00;">PKR {{ number_format($order->total, 0) }}</td>
                                     <td><span class="status-chip {{ $statusClass }}">{{ $order->status }}</span></td>
                                     <td>{{ $order->created_at->format('h:i A') }}</td>
                                 </tr>
@@ -310,14 +284,14 @@
         <!-- Top Items Today -->
         <div class="col-lg-4 reveal">
             <div class="card border-0 shadow-sm rounded-4 p-4 h-100 info-card" style="background: var(--card-bg); border: 1px solid var(--card-border);">
-                <h5 class="fw-900 mb-4"><i class="fas fa-fire-alt me-2" style="color:#087f6d;"></i>Top Selling Items Today</h5>
+                <h5 class="fw-900 mb-4"><i class="fas fa-fire-alt me-2" style="color:#9a6b00;"></i>Top Selling Items Today</h5>
                 <div class="list-group list-group-flush">
                     @forelse($topItemsToday as $item)
                         <div class="list-group-item px-0 d-flex justify-content-between align-items-center bg-transparent border-bottom mb-1 seller-item">
                             <div>
                                 <span class="fw-bold text-dark">{{ $item->menuItem->name ?? 'Deleted Item' }}</span>
                             </div>
-                            <span class="badge rounded-pill px-3 py-2" style="background:#087f6d; color:#0f172a; font-weight:700;">{{ $item->sold_count }} sold</span>
+                            <span class="badge rounded-pill px-3 py-2" style="background:#9a6b00; color:#0f172a; font-weight:700;">{{ $item->sold_count }} sold</span>
                         </div>
                     @empty
                         <div class="text-center text-muted py-3">No top-selling data available for today.</div>
@@ -328,21 +302,7 @@
     </div>
 </div>
 
-<script>
-    function updateTime() {
-        const now = new Date();
-        const options = { 
-            timeZone: 'Asia/Karachi', 
-            hour: '2-digit', 
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true 
-        };
-        const paktTime = new Intl.DateTimeFormat('en-US', options).format(now);
-        document.getElementById('pakt-time').innerText = paktTime;
-    }
-    setInterval(updateTime, 1000);
-</script>
+
 @endsection
 
 @push('scripts')

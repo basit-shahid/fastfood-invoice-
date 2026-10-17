@@ -5,11 +5,11 @@
 @push('styles')
 <style>
     .welcome-card {
-        background: linear-gradient(135deg, #087f6d 0%, #bde4d5 100%);
+        background: linear-gradient(135deg, #9a6b00 0%, #bde4d5 100%);
         border-radius: 30px;
         padding: 40px;
         border: none;
-        box-shadow: 0 20px 40px rgba(8, 127, 109, 0.2);
+        box-shadow: 0 20px 40px rgba(239, 187, 40, 0.2);
         position: relative;
         overflow: hidden;
         margin-bottom: 40px;
@@ -47,7 +47,7 @@
         position: absolute;
         left: 0; top: 0; bottom: 0;
         width: 4px;
-        background: linear-gradient(180deg, #087f6d, #63baa0);
+        background: linear-gradient(180deg, #9a6b00, #efbb28);
         border-radius: 4px 0 0 4px;
         transform: scaleY(0);
         transform-origin: bottom;
@@ -71,9 +71,9 @@
         margin-bottom: 20px;
     }
 
-    .icon-menu { background: rgba(8, 127, 109, 0.1); color: #087f6d; }
-    .icon-orders { background: rgba(8, 127, 109, 0.1); color: #087f6d; }
-    .icon-staff { background: rgba(8, 127, 109, 0.1); color: #087f6d; }
+    .icon-menu { background: rgba(239, 187, 40, 0.1); color: #9a6b00; }
+    .icon-orders { background: rgba(239, 187, 40, 0.1); color: #9a6b00; }
+    .icon-staff { background: rgba(239, 187, 40, 0.1); color: #9a6b00; }
 
     .stat-value {
         font-size: 2.5rem;
@@ -103,7 +103,7 @@
 
     .quick-link:hover {
         gap: 12px;
-        color: #087f6d;
+        color: #9a6b00;
     }
 
     .time-badge {
@@ -145,7 +145,7 @@
         width: 40px;
         height: 3px;
         border-radius: 2px;
-        background: linear-gradient(90deg, #087f6d, #63baa0);
+        background: linear-gradient(90deg, #9a6b00, #efbb28);
     }
 
     /* Dark mode dashboard overrides */
@@ -159,32 +159,14 @@
 @section('content')
 <div class="container py-5">
     <!-- Welcome Header -->
-    <div class="welcome-card animate__animated animate__fadeIn">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <div class="time-badge mb-3">
-                    <i class="far fa-clock"></i>
-                    <span id="pakt-time">{{ now()->timezone('Asia/Karachi')->format('h:i A') }}</span>
-                    <span class="text-muted small ms-2">Pakistan Time</span>
-                </div>
-                <div class="d-flex align-items-center gap-3 flex-wrap">
-                    <h1 class="display-4 fw-900 mb-0 text-align-center">Business overview </h1>
-                    </div>
-                <p class="lead opacity-75 mt-3 mb-0">Manage your business operations and check real-time statistics.</p>
-            </div>
-            <div class="col-md-4 text-end d-none d-md-block">
-                <a href="{{ route('orders.create') }}" class="btn btn-primary"><i class="fas fa-plus me-2"></i> New order</a>
-            </div>
-        </div>
-    </div>
-
+    <div class="overview-heading"><div><div class="pos-kicker">TODAY AT THE COUNTER</div><h1>Your day, at a glance.</h1><p class="text-muted">{{ now()->format('l, d F') }}</p></div><a href="{{ route('orders.create') }}" class="btn btn-primary"><i class="fas fa-plus me-2"></i> Take an order</a></div>
     <!-- Revenue Metrics -->
     <div class="row g-4 mb-4 reveal-group">
         <!-- Daily Revenue -->
         <div class="col-md-4 reveal">
             <div class="stat-card">
                 <div>
-                    <div class="stat-icon" style="background: rgba(8, 127, 109, 0.1); color: #087f6d;">
+                    <div class="stat-icon" style="background: rgba(239, 187, 40, 0.1); color: #9a6b00;">
                         <i class="fas fa-calendar-day"></i>
                     </div>
                     <div class="stat-label">Daily Revenue</div>
@@ -197,7 +179,7 @@
         <div class="col-md-4 reveal">
             <div class="stat-card">
                 <div>
-                    <div class="stat-icon" style="background: rgba(8, 127, 109, 0.1); color: #087f6d;">
+                    <div class="stat-icon" style="background: rgba(239, 187, 40, 0.1); color: #9a6b00;">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                     <div class="stat-label">Monthly Revenue</div>
@@ -210,7 +192,7 @@
         <div class="col-md-4 reveal">
             <div class="stat-card">
                 <div>
-                    <div class="stat-icon" style="background: rgba(8, 127, 109, 0.1); color: #087f6d;">
+                    <div class="stat-icon" style="background: rgba(239, 187, 40, 0.1); color: #9a6b00;">
                         <i class="fas fa-wallet"></i>
                     </div>
                     <div class="stat-label">All-Time Revenue</div>
@@ -220,6 +202,7 @@
         </div>
     </div>
 
+    <details class="insights-details"><summary>Operations & sales insights <span>Menu, team, and sales trends</span></summary><div class="pt-4">
     <div class="row g-4 mb-5 reveal-group">
         <!-- Menu Items Stat -->
         <div class="col-md-4 reveal">
@@ -298,7 +281,7 @@
         <!-- Staff Performance -->
         <div class="col-lg-4 reveal">
             <div class="card border-0 shadow-sm rounded-4 p-4 h-100 info-card">
-                <h5 class="fw-900 mb-4"><i class="fas fa-medal me-2" style="color:#087f6d;"></i>Top Staff</h5>
+                <h5 class="fw-900 mb-4"><i class="fas fa-medal me-2" style="color:#9a6b00;"></i>Top Staff</h5>
                 <div class="table-responsive">
                     <table class="table table-borderless align-middle mb-0">
                         <tbody>
@@ -309,7 +292,7 @@
                                     <small class="text-muted text-capitalize">{{ $staff->role }}</small>
                                 </td>
                                 <td class="text-end px-0">
-                                    <div class="fw-bold" style="color:#087f6d;">PKR {{ number_format($staff->total_sales, 0) }}</div>
+                                    <div class="fw-bold" style="color:#9a6b00;">PKR {{ number_format($staff->total_sales, 0) }}</div>
                                     <small class="text-muted">{{ $staff->orders_count }} orders</small>
                                 </td>
                             </tr>
@@ -326,14 +309,14 @@
         <!-- Best Sellers -->
         <div class="col-lg-4 reveal">
             <div class="card border-0 shadow-sm rounded-4 p-4 h-100 info-card">
-                <h5 class="fw-900 mb-4"><i class="fas fa-arrow-up me-2" style="color:#087f6d;"></i>Best Sellers</h5>
+                <h5 class="fw-900 mb-4"><i class="fas fa-arrow-up me-2" style="color:#9a6b00;"></i>Best Sellers</h5>
                 <div class="list-group list-group-flush">
                     @forelse($bestSellers as $item)
                     <div class="list-group-item px-0 d-flex justify-content-between align-items-center border-bottom mb-1 seller-item">
                         <div>
                             <span class="fw-bold text-dark">{{ $item->menuItem->name ?? 'Deleted Item' }}</span>
                         </div>
-                        <span class="badge rounded-pill px-3 badge-pop" style="background:#087f6d; color:#0f172a;">{{ $item->total_quantity }} sold</span>
+                        <span class="badge rounded-pill px-3 badge-pop" style="background:#9a6b00; color:#0f172a;">{{ $item->total_quantity }} sold</span>
                     </div>
                     @empty
                     <div class="text-center text-muted py-3">No data available</div>
@@ -345,14 +328,14 @@
         <!-- Worst Sellers -->
         <div class="col-lg-4 reveal">
             <div class="card border-0 shadow-sm rounded-4 p-4 h-100 info-card">
-                <h5 class="fw-900 mb-4"><i class="fas fa-arrow-down me-2" style="color:#087f6d;"></i>Needs Improv.</h5>
+                <h5 class="fw-900 mb-4"><i class="fas fa-arrow-down me-2" style="color:#9a6b00;"></i>Needs Improv.</h5>
                 <div class="list-group list-group-flush">
                     @forelse($worstSellers as $item)
                     <div class="list-group-item px-0 d-flex justify-content-between align-items-center border-bottom mb-1 seller-item">
                         <div>
                             <span class="fw-bold text-dark">{{ $item->menuItem->name ?? 'Deleted Item' }}</span>
                         </div>
-                        <span class="badge rounded-pill px-3 badge-pop" style="background:#0f172a; color:#087f6d;">{{ $item->total_quantity }} sold</span>
+                        <span class="badge rounded-pill px-3 badge-pop" style="background:#0f172a; color:#9a6b00;">{{ $item->total_quantity }} sold</span>
                     </div>
                     @empty
                     <div class="text-center text-muted py-3">No data available</div>
@@ -361,23 +344,10 @@
             </div>
         </div>
     </div>
+    </div></details>
 </div>
 
-<script>
-    function updateTime() {
-        const now = new Date();
-        const options = { 
-            timeZone: 'Asia/Karachi', 
-            hour: '2-digit', 
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true 
-        };
-        const paktTime = new Intl.DateTimeFormat('en-US', options).format(now);
-        document.getElementById('pakt-time').innerText = paktTime;
-    }
-    setInterval(updateTime, 1000);
-</script>
+
 @endsection
 
 @push('scripts')
@@ -479,7 +449,7 @@
                     label: 'Orders',
                     data: peakHoursData,
                     backgroundColor: lineGradient,
-                    borderColor: 'rgba(8, 127, 109, 1)',
+                    borderColor: 'rgba(239, 187, 40, 1)',
                     borderWidth: 2.5,
                     tension: 0.45,
                     fill: true,
